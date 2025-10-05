@@ -1,0 +1,90 @@
+[
+  {
+    "id": "1",
+    "customer_name": "James Thompson",
+    "rating": 5,
+    "comment": "Absolutely brilliant service from Paul and his team. Purchased a BMW 3 Series and couldn't be happier. The car was exactly as described, and the whole process was smooth and professional. Highly recommend!",
+    "car_id": "1",
+    "is_approved": true,
+    "created_at": "2024-01-15T10:30:00Z"
+  },
+  {
+    "id": "2",
+    "customer_name": "Sarah Mitchell",
+    "rating": 5,
+    "comment": "Best car buying experience I've ever had. Paul was honest, transparent, and went above and beyond to help me find the perfect car. The Mercedes C-Class is gorgeous and runs like a dream. Thank you!",
+    "car_id": "2",
+    "is_approved": true,
+    "created_at": "2024-01-20T14:45:00Z"
+  },
+  {
+    "id": "3",
+    "customer_name": "Michael Edwards",
+    "rating": 5,
+    "comment": "Purchased an Audi A4 from Paul's Auto and I'm thoroughly impressed. The attention to detail and customer service is second to none. They made the entire process stress-free. Five stars!",
+    "car_id": "3",
+    "is_approved": true,
+    "created_at": "2024-02-05T09:15:00Z"
+  },
+  {
+    "id": "4",
+    "customer_name": "Emma Wilson",
+    "rating": 5,
+    "comment": "I was nervous about buying a car, but Paul made everything so easy. He answered all my questions patiently and helped me get the perfect Range Rover. Absolutely love it! Will recommend to everyone.",
+    "car_id": "4",
+    "is_approved": true,
+    "created_at": "2024-02-12T16:20:00Z"
+  },
+  {
+    "id": "5",
+    "customer_name": "David Clarke",
+    "rating": 5,
+    "comment": "Top-notch service! The Golf GTI I bought is in fantastic condition, and Paul was brilliant throughout. No pressure, just honest advice. This is how car dealers should operate. Cheers!",
+    "car_id": "5",
+    "is_approved": true,
+    "created_at": "2024-02-18T11:00:00Z"
+  },
+  {
+    "id": "6",
+    "customer_name": "Sophie Anderson",
+    "rating": 5,
+    "comment": "Just picked up my Tesla Model 3 and I'm over the moon! Paul's knowledge about electric vehicles was impressive, and he made sure I understood everything. Great experience from start to finish.",
+    "car_id": "6",
+    "is_approved": true,
+    "created_at": "2024-02-25T13:30:00Z"
+  },
+  {
+    "id": "7",
+    "customer_name": "Robert Davies",
+    "rating": 5,
+    "comment": "Exceptional service and quality vehicles. I've bought two cars from Paul now, and both times have been fantastic experiences. Trustworthy, reliable, and professional. Highly recommended!",
+    "is_approved": true,
+    "created_at": "2024-03-01T10:00:00Z"
+  },
+  {
+    "id": "8",
+    "customer_name": "Lucy Brown",
+    "rating": 5,
+    "comment": "Paul's Auto Car Sales is simply the best. The team went out of their way to help me find exactly what I wanted. The after-sales support is brilliant too. Couldn't ask for more!",
+    "is_approved": true,
+    "created_at": "2024-03-08T15:45:00Z"
+  },
+  {
+    "id": "9",
+    "customer_name": "Thomas Wright",
+    "rating": 5,
+    "comment": "What a fantastic dealership! I bought a Porsche Macan and the whole experience was first-class. Paul's expertise and friendly approach made all the difference. Will definitely return!",
+    "car_id": "7",
+    "is_approved": true,
+    "created_at": "2024-03-15T12:20:00Z"
+  },
+  {
+    "id": "10",
+    "customer_name": "Charlotte Taylor",
+    "rating": 5,
+    "comment": "Five stars all the way! Paul helped me get my dream car - a stunning Mustang. His passion for cars really shows, and the service is unbeatable. Thank you for making it such a memorable experience!",
+    "car_id": "8",
+    "is_approved": true,
+    "created_at": "2024-03-22T14:00:00Z"
+  }
+]

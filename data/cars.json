@@ -1,0 +1,242 @@
+[
+  {
+    "id": "1",
+    "make": "BMW",
+    "model": "3 Series",
+    "year": 2021,
+    "price": 28500,
+    "mileage": 15000,
+    "fuel_type": "Petrol",
+    "transmission": "Automatic",
+    "body_type": "Sedan",
+    "color": "Midnight Blue",
+    "description": "Stunning BMW 3 Series in immaculate condition. This executive saloon combines performance with luxury, featuring a powerful engine, premium interior, and advanced safety features. Perfect for business or pleasure.",
+    "features": [
+      "Leather Seats",
+      "Navigation System",
+      "Parking Sensors",
+      "Bluetooth",
+      "Cruise Control",
+      "Climate Control",
+      "LED Headlights",
+      "Alloy Wheels"
+    ],
+    "images": [
+      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg",
+      "https://images.pexels.com/photos/3972755/pexels-photo-3972755.jpeg",
+      "https://images.pexels.com/photos/1035108/pexels-photo-1035108.jpeg"
+    ],
+    "is_featured": true,
+    "status": "Available"
+  },
+  {
+    "id": "2",
+    "make": "Mercedes-Benz",
+    "model": "C-Class",
+    "year": 2020,
+    "price": 32000,
+    "mileage": 22000,
+    "fuel_type": "Diesel",
+    "transmission": "Automatic",
+    "body_type": "Sedan",
+    "color": "Silver",
+    "description": "Elegant Mercedes-Benz C-Class offering sophistication and comfort. Features include premium materials, cutting-edge technology, and renowned German engineering. A true driver's car with impeccable road presence.",
+    "features": [
+      "Premium Sound System",
+      "Sunroof",
+      "Heated Seats",
+      "Adaptive Cruise Control",
+      "Parking Camera",
+      "Dual Zone Climate",
+      "AMG Styling Package",
+      "Digital Cockpit"
+    ],
+    "images": [
+      "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
+      "https://images.pexels.com/photos/1719647/pexels-photo-1719647.jpeg",
+      "https://images.pexels.com/photos/3874337/pexels-photo-3874337.jpeg"
+    ],
+    "is_featured": true,
+    "status": "Available"
+  },
+  {
+    "id": "3",
+    "make": "Audi",
+    "model": "A4",
+    "year": 2022,
+    "price": 35000,
+    "mileage": 8000,
+    "fuel_type": "Petrol",
+    "transmission": "Automatic",
+    "body_type": "Sedan",
+    "color": "Black",
+    "description": "Nearly new Audi A4 with minimal mileage. This sophisticated sedan features Audi's latest technology, quattro all-wheel drive, and a refined interior. An excellent choice for discerning drivers.",
+    "features": [
+      "Virtual Cockpit",
+      "Matrix LED Headlights",
+      "Bang & Olufsen Sound",
+      "Wireless Charging",
+      "Panoramic Sunroof",
+      "S-Line Package",
+      "Adaptive Suspension",
+      "360 Camera"
+    ],
+    "images": [
+      "https://images.pexels.com/photos/3972755/pexels-photo-3972755.jpeg",
+      "https://images.pexels.com/photos/1077785/pexels-photo-1077785.jpeg",
+      "https://images.pexels.com/photos/3136673/pexels-photo-3136673.jpeg"
+    ],
+    "is_featured": true,
+    "status": "Available"
+  },
+  {
+    "id": "4",
+    "make": "Range Rover",
+    "model": "Evoque",
+    "year": 2021,
+    "price": 42000,
+    "mileage": 12000,
+    "fuel_type": "Hybrid",
+    "transmission": "Automatic",
+    "body_type": "SUV",
+    "color": "White",
+    "description": "Luxurious Range Rover Evoque combining style with sustainability. This hybrid SUV offers commanding presence, exceptional comfort, and impressive fuel efficiency. Perfect for families and adventurers alike.",
+    "features": [
+      "Meridian Sound System",
+      "Pivi Pro Infotainment",
+      "Configurable Ambient Lighting",
+      "Heated Windscreen",
+      "Power Tailgate",
+      "Keyless Entry",
+      "Premium Leather Interior",
+      "Terrain Response System"
+    ],
+    "images": [
+      "https://images.pexels.com/photos/2920064/pexels-photo-2920064.jpeg",
+      "https://images.pexels.com/photos/1402787/pexels-photo-1402787.jpeg",
+      "https://images.pexels.com/photos/3136687/pexels-photo-3136687.jpeg"
+    ],
+    "is_featured": false,
+    "status": "Available"
+  },
+  {
+    "id": "5",
+    "make": "Volkswagen",
+    "model": "Golf GTI",
+    "year": 2020,
+    "price": 24500,
+    "mileage": 18000,
+    "fuel_type": "Petrol",
+    "transmission": "Manual",
+    "body_type": "Hatchback",
+    "color": "Red",
+    "description": "Iconic Golf GTI in striking red. This hot hatch delivers thrilling performance with practical everyday usability. Well-maintained with full service history.",
+    "features": [
+      "Sports Seats",
+      "Touchscreen Infotainment",
+      "Reverse Camera",
+      "Sport Mode",
+      "18-inch Alloys",
+      "Digital Instruments",
+      "Performance Exhaust",
+      "LED Lighting"
+    ],
+    "images": [
+      "https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg",
+      "https://images.pexels.com/photos/3764984/pexels-photo-3764984.jpeg",
+      "https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg"
+    ],
+    "is_featured": false,
+    "status": "Available"
+  },
+  {
+    "id": "6",
+    "make": "Tesla",
+    "model": "Model 3",
+    "year": 2022,
+    "price": 45000,
+    "mileage": 5000,
+    "fuel_type": "Electric",
+    "transmission": "Automatic",
+    "body_type": "Sedan",
+    "color": "Pearl White",
+    "description": "Cutting-edge Tesla Model 3 with autopilot capability. Experience the future of motoring with instant acceleration, zero emissions, and over-the-air updates. Minimal running costs.",
+    "features": [
+      "Autopilot",
+      "15-inch Touchscreen",
+      "Premium Audio",
+      "Glass Roof",
+      "Supercharger Access",
+      "Mobile App Control",
+      "Sentry Mode",
+      "Long Range Battery"
+    ],
+    "images": [
+      "https://images.pexels.com/photos/3617457/pexels-photo-3617457.jpeg",
+      "https://images.pexels.com/photos/3156482/pexels-photo-3156482.jpeg",
+      "https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg"
+    ],
+    "is_featured": true,
+    "status": "Available"
+  },
+  {
+    "id": "7",
+    "make": "Porsche",
+    "model": "Macan",
+    "year": 2021,
+    "price": 52000,
+    "mileage": 9000,
+    "fuel_type": "Petrol",
+    "transmission": "Automatic",
+    "body_type": "SUV",
+    "color": "Graphite Grey",
+    "description": "Exhilarating Porsche Macan SUV combining sports car performance with practicality. This premium SUV features sublime handling, luxurious interior, and unmistakable Porsche DNA.",
+    "features": [
+      "PCM Infotainment",
+      "Bose Sound System",
+      "Sport Chrono Package",
+      "Air Suspension",
+      "Power Seats with Memory",
+      "Bi-Xenon Headlights",
+      "Sport Exhaust",
+      "20-inch Alloys"
+    ],
+    "images": [
+      "https://images.pexels.com/photos/4173253/pexels-photo-4173253.jpeg",
+      "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg",
+      "https://images.pexels.com/photos/2920064/pexels-photo-2920064.jpeg"
+    ],
+    "is_featured": false,
+    "status": "Available"
+  },
+  {
+    "id": "8",
+    "make": "Ford",
+    "model": "Mustang",
+    "year": 2020,
+    "price": 38000,
+    "mileage": 14000,
+    "fuel_type": "Petrol",
+    "transmission": "Automatic",
+    "body_type": "Coupe",
+    "color": "Racing Blue",
+    "description": "Iconic American muscle car with legendary V8 power. This Mustang turns heads wherever it goes with its aggressive styling and thunderous exhaust note. Pure driving excitement.",
+    "features": [
+      "V8 Engine",
+      "SYNC 3 Infotainment",
+      "Rear View Camera",
+      "Selectable Drive Modes",
+      "Premium Sound",
+      "Performance Package",
+      "Launch Control",
+      "19-inch Alloys"
+    ],
+    "images": [
+      "https://images.pexels.com/photos/1319839/pexels-photo-1319839.jpeg",
+      "https://images.pexels.com/photos/544542/pexels-photo-544542.jpeg",
+      "https://images.pexels.com/photos/2365572/pexels-photo-2365572.jpeg"
+    ],
+    "is_featured": true,
+    "status": "Available"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "totalCars": 8,
+  "availableCars": 8,
+  "soldCars": 127,
+  "totalReviews": 10,
+  "averageRating": 5.0,
+  "pendingInquiries": 3,
+  "happyCustomers": 135
+}
