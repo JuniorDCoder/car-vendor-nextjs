@@ -1,30 +1,9 @@
-import { Metadata } from 'next';
+// app/cars/[id]/page.tsx (Server Component)
 import { notFound } from 'next/navigation';
-import CarDetailClient from './CarDetailClient';
+import CarDetailWrapper from './CarDetailWrapper';
 import { carService } from '@/lib/firestore';
 
-// Generate metadata for SEO
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-    const car = await carService.getCarById(params.id);
-
-    if (!car) {
-        return {
-            title: 'Car Not Found - Paul\'s Auto',
-        };
-    }
-
-    return {
-        title: `${car.make} ${car.model} ${car.year} - Paul's Auto`,
-        description: car.description.substring(0, 160),
-        openGraph: {
-            title: `${car.make} ${car.model} ${car.year}`,
-            description: car.description.substring(0, 160),
-            images: car.images.length > 0 ? [car.images[0]] : [],
-        },
-    };
-}
-
-// Generate static paths for better performance (optional)
+// Generate static params for build time
 export async function generateStaticParams() {
     try {
         const { cars } = await carService.getCars(50);
@@ -37,12 +16,17 @@ export async function generateStaticParams() {
     }
 }
 
+// Server component that fetches initial data
 export default async function CarDetailPage({ params }: { params: { id: string } }) {
-    const car = await carService.getCarById(params.id);
+    // Try to fetch car data server-side for SEO
+    let initialCar = null;
 
-    if (!car) {
-        notFound();
+    try {
+        initialCar = await carService.getCarById(params.id);
+    } catch (error) {
+        console.error('Error fetching car:', error);
     }
 
-    return <CarDetailClient car={car} />;
+    // Pass the car ID and initial data to client component
+    return <CarDetailWrapper carId={params.id} initialCar={initialCar} />;
 }
