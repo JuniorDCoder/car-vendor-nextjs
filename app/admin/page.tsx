@@ -12,7 +12,7 @@ import { Car as CarType, Review } from '@/types';
 
 export default function AdminDashboard() {
     const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false); // Changed to false since layout handles auth
     const [cars, setCars] = useState<CarType[]>([]);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [stats, setStats] = useState({
@@ -24,32 +24,12 @@ export default function AdminDashboard() {
     });
 
     useEffect(() => {
-        checkAuth();
         loadStats();
     }, []);
 
-    const checkAuth = async () => {
-        try {
-            const user = await authService.getCurrentUser();
-            if (!user) {
-                router.push('/admin/login');
-                return;
-            }
-
-            const isAdmin = await authService.isAdmin(user);
-            if (!isAdmin) {
-                router.push('/admin/login');
-                return;
-            }
-
-            setLoading(false);
-        } catch (error) {
-            router.push('/admin/login');
-        }
-    };
-
     const loadStats = async () => {
         try {
+            setLoading(true);
             const [carsData, reviewsData] = await Promise.all([
                 carService.getCars(),
                 reviewService.getReviews()
@@ -67,10 +47,12 @@ export default function AdminDashboard() {
                 availableCars,
                 soldCars,
                 totalReviews: approvedReviews,
-                unreadMessages: 0, // You can implement this later with contact submissions
+                unreadMessages: 0,
             });
         } catch (error) {
             console.error('Error loading stats:', error);
+        } finally {
+            setLoading(false);
         }
     };
 

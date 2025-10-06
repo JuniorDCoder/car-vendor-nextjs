@@ -168,7 +168,7 @@ export default function Home() {
 
                         <motion.div
                             variants={itemVariants}
-                            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+                            className="flex flex-col sm:flex-row md:gap-4 gap-7 justify-center items-center mb-12"
                         >
                             <Link
                                 href="/cars"
@@ -579,11 +579,13 @@ export default function Home() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                 <a
-                                    href="tel:+447868364455"
-                                    className="bg-[#D32F2F] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#B71C1C] transition-all duration-300 shadow-2xl hover:shadow-3xl flex items-center space-x-2"
+                                    href="https://wa.me/447868364455?text=Hi%2C%20I'm%20interested%20in%20learning%20more%20about%20the%20cars%20available%20on%20your%20platform.%20Could%20you%20please%20provide%20me%20with%20more%20information%3F"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-[#10B981] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#059669] transition-all duration-300 shadow-2xl hover:shadow-3xl flex items-center space-x-2"
                                 >
                                     <Phone className="w-5 h-5" />
-                                    <span>Call: +44 7868 364455</span>
+                                    <span>Discuss With Us</span>
                                 </a>
                             </motion.div>
 
@@ -607,7 +609,7 @@ export default function Home() {
                             viewport={{ once: true }}
                         >
                             {[
-                                { icon: <MapPin className="w-6 h-6" />, text: 'London Showroom' },
+                                { icon: <MapPin className="w-6 h-6" />, text: 'The Car Showroom, St John\'s Rd, Meadowfield, Durham DH7 8XL, United Kingdom' },
                                 { icon: <Clock className="w-6 h-6" />, text: 'Mon-Sat: 9AM-6PM' },
                                 { icon: <Car className="w-6 h-6" />, text: 'Free Test Drives' },
                             ].map((item, index) => (

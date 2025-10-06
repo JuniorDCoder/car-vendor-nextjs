@@ -1,0 +1,11 @@
+# Enables the URL Rewrite engine
+RewriteEngine On
+
+# 1. Prevent directory browsing for security reasons
+Options -Indexes
+
+# 2. Redirect all requests to index.html for client-side routing
+# Only if the requested file is NOT a real file or directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]

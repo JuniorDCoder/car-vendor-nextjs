@@ -48,12 +48,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-3">
-              <li className="flex items-center space-x-2 text-[#C0C0C0] text-sm">
-                <Phone className="w-4 h-4 text-[#D32F2F]" />
-                <a href="tel:+447868364455" className="hover:text-[#D32F2F] transition-colors">
-                  +44 7868 364455
-                </a>
-              </li>
+
               <li className="flex items-center space-x-2 text-[#C0C0C0] text-sm">
                 <Mail className="w-4 h-4 text-[#D32F2F]" />
                 <a href="mailto:info@paulsautocarsales.uk" className="hover:text-[#D32F2F] transition-colors">
@@ -62,7 +57,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start space-x-2 text-[#C0C0C0] text-sm">
                 <MapPin className="w-4 h-4 text-[#D32F2F] mt-0.5" />
-                <span>London, United Kingdom</span>
+                <span>The Car Showroom, St John's Rd, Meadowfield, Durham DH7 8XL, United Kingdom</span>
               </li>
             </ul>
           </div>

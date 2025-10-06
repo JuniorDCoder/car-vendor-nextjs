@@ -6,7 +6,6 @@ import Image from 'next/image';
 import AOS from 'aos';
 import {
     ArrowLeft,
-    Phone,
     MessageCircle,
     Mail,
     Calendar,
@@ -18,7 +17,8 @@ import {
     Star,
     Loader,
     Shield,
-    MapPin
+    MapPin,
+    CreditCard
 } from 'lucide-react';
 import { reviewService } from '@/lib/firestore';
 import { Car, Review } from '@/types';
@@ -137,6 +137,16 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
         } finally {
             setSubmitting(false);
         }
+    };
+
+    const generateWhatsAppMessage = () => {
+        const message = `Hello! I'm interested in the ${car.make} ${car.model} (${car.year}) for £${car.price?.toLocaleString()}. \n\nI would like to proceed with payment. Could you please provide me with the payment details and process? \n\nThank you!`;
+        return encodeURIComponent(message);
+    };
+
+    const generateQuickWhatsAppMessage = () => {
+        const message = `Hello! I want to make payment for the ${car.make} ${car.model}. Please share payment details.`;
+        return encodeURIComponent(message);
     };
 
     const averageRating = reviews.length > 0
@@ -299,17 +309,19 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                             {car.status === 'available' && (
                                 <div className="flex gap-3">
                                     <a
-                                        href="tel:+447868364455"
-                                        className="flex-1 bg-[#D32F2F] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center"
-                                    >
-                                        <Phone className="w-5 h-5 mr-2" />
-                                        Call Now
-                                    </a>
-                                    <a
-                                        href={`https://wa.me/447868364455?text=I'm interested in the ${car.make} ${car.model} (${car.year}) - £${car.price?.toLocaleString()}`}
+                                        href={`https://wa.me/447868364455?text=${generateQuickWhatsAppMessage()}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex-1 bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors flex items-center justify-center"
+                                    >
+                                        <CreditCard className="w-5 h-5 mr-2" />
+                                        Make Payment
+                                    </a>
+                                    <a
+                                        href={`https://wa.me/447868364455?text=${generateWhatsAppMessage()}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-1 bg-[#D32F2F] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center"
                                     >
                                         <MessageCircle className="w-5 h-5 mr-2" />
                                         WhatsApp
@@ -506,7 +518,14 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                             <div className="mt-6 pt-6 border-t border-gray-200">
                                 <h3 className="font-semibold text-[#001F3F] mb-3">Quick Contact</h3>
                                 <div className="space-y-2 text-sm text-gray-600">
-                                    <p>📞 <a href="tel:+447868364455" className="hover:text-[#D32F2F]">+44 7868 364455</a></p>
+                                    <p>💬 <a
+                                        href={`https://wa.me/447868364455?text=${generateWhatsAppMessage()}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:text-[#D32F2F]"
+                                    >
+                                        WhatsApp: +44 7868 364455
+                                    </a></p>
                                     <p>📧 <a href="mailto:info@paulsautocarsales.uk" className="hover:text-[#D32F2F]">info@paulsautocarsales.uk</a></p>
                                     <p>🕒 Mon-Sat: 9:00 AM - 6:00 PM</p>
                                 </div>

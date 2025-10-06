@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import AOS from 'aos';
-import { Phone, Mail, MapPin, Clock, Send, Loader, CheckCircle, Bell } from 'lucide-react';
+import { MessageCircle, Mail, MapPin, Clock, Send, Loader, CheckCircle } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import toast from 'react-hot-toast';
@@ -62,6 +62,11 @@ export default function ContactPage() {
             body: `From: ${formData.name} - ${formData.subject}`,
             tag: 'contact-form'
         });
+    };
+
+    const generateWhatsAppMessage = () => {
+        const message = `Hello Paul's Auto! I'd like to get more information about your cars and services. Please contact me back. Thank you!`;
+        return encodeURIComponent(message);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -178,22 +183,25 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
                     {[
                         {
-                            icon: <Phone className="w-8 h-8" />,
-                            title: 'Phone',
+                            icon: <MessageCircle className="w-8 h-8" />,
+                            title: 'WhatsApp',
                             content: '+44 7868 364455',
-                            link: 'tel:+447868364455',
+                            link: `https://wa.me/447868364455?text=${generateWhatsAppMessage()}`,
+                            description: 'Quick chat for instant assistance'
                         },
                         {
                             icon: <Mail className="w-8 h-8" />,
                             title: 'Email',
                             content: 'info@paulsautocarsales.uk',
                             link: 'mailto:info@paulsautocarsales.uk',
+                            description: 'Send us detailed inquiries'
                         },
                         {
                             icon: <MapPin className="w-8 h-8" />,
                             title: 'Location',
-                            content: 'London, United Kingdom',
-                            link: '#',
+                            content: 'The Car Showroom, St John\'s Rd',
+                            link: '#location',
+                            description: 'Meadowfield, Durham DH7 8XL'
                         },
                     ].map((item, index) => (
                         <motion.div
@@ -207,10 +215,13 @@ export default function ContactPage() {
                             <h3 className="text-xl font-bold text-[#001F3F] mb-2">{item.title}</h3>
                             <a
                                 href={item.link}
-                                className="text-gray-600 hover:text-[#D32F2F] transition-colors"
+                                target={item.title === 'WhatsApp' ? '_blank' : '_self'}
+                                rel={item.title === 'WhatsApp' ? 'noopener noreferrer' : ''}
+                                className="text-gray-600 hover:text-[#D32F2F] transition-colors block mb-2"
                             >
                                 {item.content}
                             </a>
+                            <p className="text-sm text-gray-500">{item.description}</p>
                         </motion.div>
                     ))}
                 </div>
@@ -353,15 +364,23 @@ export default function ContactPage() {
                         >
                             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.5283578832973!2d-0.1277583!3d51.5073509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b900d26973%3A0x4291f3172409ea92!2slondon!5e0!3m2!1sen!2suk!4v1234567890"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2302.215647216083!2d-1.6254568232793368!3d54.75423247184948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487e15a69c56ab43%3A0x2b6c8d4c8b3f4b1e!2sThe%20Car%20Showroom%2C%20St%20John's%20Rd%2C%20Meadowfield%2C%20Durham%20DH7%208XL%2C%20UK!5e0!3m2!1sen!2suk!4v1700000000000!5m2!1sen!2suk"
                                     width="100%"
                                     height="300"
                                     style={{ border: 0 }}
                                     allowFullScreen
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
-                                    title="Paul's Auto Location"
+                                    title="Paul's Auto Location - The Car Showroom, Durham"
                                 />
+                                <div className="p-4 bg-gray-50">
+                                    <h4 className="font-semibold text-[#001F3F]">Our Showroom</h4>
+                                    <p className="text-sm text-gray-600 mt-1">
+                                        The Car Showroom, St John's Rd<br />
+                                        Meadowfield, Durham DH7 8XL<br />
+                                        United Kingdom
+                                    </p>
+                                </div>
                             </div>
                         </motion.div>
 
@@ -373,14 +392,15 @@ export default function ContactPage() {
                             <div className="bg-gradient-to-br from-[#001F3F] to-[#003366] rounded-2xl p-8 text-white">
                                 <h3 className="text-2xl font-bold mb-4">Prefer to Chat?</h3>
                                 <p className="text-[#C0C0C0] mb-6">
-                                    Get instant answers to your questions via WhatsApp.
+                                    Get instant answers to your questions via WhatsApp. We're here to help you find your perfect vehicle.
                                 </p>
                                 <a
-                                    href="https://wa.me/447868364455?text=Hi%20Paul's%20Auto%2C%20I%20have%20a%20question%20about%20your%20cars"
+                                    href={`https://wa.me/447868364455?text=${generateWhatsAppMessage()}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="block w-full bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors text-center"
                                 >
+                                    <MessageCircle className="w-5 h-5 inline mr-2" />
                                     WhatsApp Us
                                 </a>
                             </div>
