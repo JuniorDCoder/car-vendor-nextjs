@@ -5,6 +5,7 @@ import Navigation from '@/components/shared/Navigation';
 import Footer from '@/components/shared/Footer';
 import WhatsAppButton from '@/components/shared/WhatsAppButton';
 import JivoChat from '@/components/shared/JivoChat';
+import {Providers} from "@/app/providers";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,7 +24,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navigation />
         <main className="min-h-screen">
-          {children}
+            <Providers>{children}</Providers>
         </main>
         <Footer />
         <WhatsAppButton />

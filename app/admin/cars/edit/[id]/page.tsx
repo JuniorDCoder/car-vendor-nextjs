@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import CarDetailClient from './CarDetailClient';
+import EditCarClient from './EditCarClient';
 import { carService } from '@/lib/firestore';
 
 // Generate metadata for SEO
@@ -9,25 +9,19 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
     if (!car) {
         return {
-            title: 'Car Not Found - Paul\'s Auto',
+            title: 'Car Not Found - Admin',
         };
     }
 
     return {
-        title: `${car.make} ${car.model} ${car.year} - Paul's Auto`,
-        description: car.description.substring(0, 160),
-        openGraph: {
-            title: `${car.make} ${car.model} ${car.year}`,
-            description: car.description.substring(0, 160),
-            images: car.images.length > 0 ? [car.images[0]] : [],
-        },
+        title: `Edit ${car.make} ${car.model} - Admin`,
     };
 }
 
-// Generate static paths for better performance (optional)
+// Generate static paths for all cars
 export async function generateStaticParams() {
     try {
-        const { cars } = await carService.getCars(50);
+        const { cars } = await carService.getCars(50); // Adjust limit as needed
         return cars.map((car) => ({
             id: car.id!,
         }));
@@ -37,12 +31,13 @@ export async function generateStaticParams() {
     }
 }
 
-export default async function CarDetailPage({ params }: { params: { id: string } }) {
+// This will be statically generated at build time
+export default async function EditCarPage({ params }: { params: { id: string } }) {
     const car = await carService.getCarById(params.id);
 
     if (!car) {
         notFound();
     }
 
-    return <CarDetailClient car={car} />;
+    return <EditCarClient car={car} />;
 }
