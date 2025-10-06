@@ -13,7 +13,7 @@ import {
     limit,
     startAfter,
     DocumentData,
-    QueryDocumentSnapshot,
+    QueryDocumentSnapshot, onSnapshot,
 } from "firebase/firestore";
 import { Car, Review } from "@/types";
 
@@ -65,6 +65,22 @@ export const carService = {
         await updateDoc(carRef, {
             ...updatedData,
             updatedAt: new Date()
+        });
+    },
+
+    subscribeToCars: (callback: (cars: Car[]) => void) => {
+        const q = query(
+            collection(db, 'cars'),
+            orderBy('createdAt', 'desc'),
+            limit(50)
+        );
+
+        return onSnapshot(q, (querySnapshot) => {
+            const cars: Car[] = [];
+            querySnapshot.forEach((doc) => {
+                cars.push({ id: doc.id, ...doc.data() } as Car);
+            });
+            callback(cars);
         });
     },
 

@@ -1,4 +1,3 @@
-// app/cars/CarsClient.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -10,6 +9,7 @@ import { ArrowRight, Filter, Loader, RefreshCw } from 'lucide-react';
 import { carService } from '@/lib/firestore';
 import { Car } from '@/types';
 import toast from 'react-hot-toast';
+
 
 interface CarsClientProps {
     initialCars: Car[];
@@ -34,6 +34,16 @@ export default function CarsClient({ initialCars }: CarsClientProps) {
             duration: 800,
             once: true,
         });
+
+        // Set up real-time listener for cars
+        const unsubscribe = carService.subscribeToCars((freshCars) => {
+            setCars(freshCars);
+            setFilteredCars(freshCars);
+            setLastRefresh(new Date());
+        });
+
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
     }, []);
 
     const refreshCars = async () => {
@@ -55,29 +65,24 @@ export default function CarsClient({ initialCars }: CarsClientProps) {
     useEffect(() => {
         let filtered = [...cars];
 
-        // Filter by make
         if (filters.make) {
             filtered = filtered.filter(car =>
                 car.make.toLowerCase().includes(filters.make.toLowerCase())
             );
         }
 
-        // Filter by fuel type
         if (filters.fuelType) {
             filtered = filtered.filter(car => car.fuelType === filters.fuelType);
         }
 
-        // Filter by status
         if (filters.status) {
             filtered = filtered.filter(car => car.status === filters.status);
         }
 
-        // Filter by min price
         if (filters.minPrice) {
             filtered = filtered.filter(car => car.price >= parseInt(filters.minPrice));
         }
 
-        // Filter by max price
         if (filters.maxPrice) {
             filtered = filtered.filter(car => car.price <= parseInt(filters.maxPrice));
         }
