@@ -1,0 +1,10 @@
+[build]
+command = "pnpm install && pnpm build"
+publish = ".next"
+
+[build.environment]
+NPM_FLAGS = "--public-hoist-pattern=*"
+NODE_VERSION = "18"
+
+[[plugins]]
+package = "@netlify/plugin-nextjs"
