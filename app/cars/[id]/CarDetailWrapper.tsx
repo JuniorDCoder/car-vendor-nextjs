@@ -11,24 +11,15 @@ import Link from 'next/link';
 
 interface CarDetailWrapperProps {
     carId: string;
-    initialCar: Car | null;
 }
 
-export default function CarDetailWrapper({ carId, initialCar }: CarDetailWrapperProps) {
+export default function CarDetailWrapper({ carId }: CarDetailWrapperProps) {
     const router = useRouter();
-    const [car, setCar] = useState<Car | null>(initialCar);
-    const [loading, setLoading] = useState(!initialCar);
+    const [car, setCar] = useState<Car | null>(null);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        // If we have initial data, use it and optionally refresh in background
-        if (initialCar) {
-            setCar(initialCar);
-            setLoading(false);
-            return;
-        }
-
-        // If no initial data (new car not in static build), fetch it
         async function loadCar() {
             try {
                 setLoading(true);
@@ -40,7 +31,6 @@ export default function CarDetailWrapper({ carId, initialCar }: CarDetailWrapper
                     setError(true);
                 } else {
                     setCar(carData);
-
                     // Update document title for SEO
                     document.title = `${carData.make} ${carData.model} ${carData.year} - Paul's Auto`;
                 }
@@ -53,9 +43,9 @@ export default function CarDetailWrapper({ carId, initialCar }: CarDetailWrapper
         }
 
         loadCar();
-    }, [carId, initialCar]);
+    }, [carId]);
 
-    // Loading state (only for new cars not in static build)
+    // Loading state
     if (loading) {
         return (
             <div className="pt-20 min-h-screen bg-gray-50 flex items-center justify-center">
@@ -76,7 +66,7 @@ export default function CarDetailWrapper({ carId, initialCar }: CarDetailWrapper
                     <AlertCircle className="w-16 h-16 text-[#D32F2F] mx-auto mb-4" />
                     <h1 className="text-4xl font-bold text-[#001F3F] mb-4">Vehicle Not Found</h1>
                     <p className="text-gray-600 mb-6">
-                        The vehicle you're looking for doesn't exist or may have been removed.
+                        The vehicle you&#39;re looking for doesn&#39;t exist or may have been removed.
                     </p>
                     <div className="flex gap-4 justify-center">
                         <Link

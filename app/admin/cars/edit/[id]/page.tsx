@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import EditCarClient from './EditCarClient';
 import { carService } from '@/lib/firestore';
 
-
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
     const car = await carService.getCarById(params.id);
@@ -19,20 +18,6 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     };
 }
 
-// Generate static paths for all cars
-export async function generateStaticParams() {
-    try {
-        const { cars } = await carService.getCars(50); // Adjust limit as needed
-        return cars.map((car) => ({
-            id: car.id!,
-        }));
-    } catch (error) {
-        console.error('Error generating static params:', error);
-        return [];
-    }
-}
-
-// This will be statically generated at build time
 export default async function EditCarPage({ params }: { params: { id: string } }) {
     const car = await carService.getCarById(params.id);
 
