@@ -9,7 +9,8 @@ import {
     Plus,
     Trash2,
     Save,
-    ArrowLeft
+    ArrowLeft,
+    Calculator
 } from 'lucide-react';
 import { carService } from '@/lib/firestore';
 import { cloudinaryService } from '@/lib/cloudinary';
@@ -30,6 +31,7 @@ export default function CarForm({ car, isEdit = false }: CarFormProps) {
         model: '',
         year: new Date().getFullYear(),
         price: 0,
+        downPayment: 0, // Add default value
         mileage: 0,
         fuelType: 'petrol',
         transmission: 'automatic',
@@ -44,6 +46,40 @@ export default function CarForm({ car, isEdit = false }: CarFormProps) {
     });
 
     const [newFeature, setNewFeature] = useState('');
+
+    // Calculate down payment as percentage of price
+    const calculateDownPayment = (price: number, percentage: number) => {
+        return Math.round(price * (percentage / 100));
+    };
+
+    const handlePriceChange = (price: number) => {
+        setFormData(prev => {
+            const newPrice = price;
+            // If down payment is currently 0 or not set, calculate 10% default
+            const currentDownPayment = prev.downPayment || 0;
+            const shouldUpdateDownPayment = currentDownPayment === 0 ||
+                (prev.price > 0 && Math.round((currentDownPayment / prev.price) * 100) === 10);
+
+            let newDownPayment = currentDownPayment;
+
+            if (shouldUpdateDownPayment && newPrice > 0) {
+                newDownPayment = calculateDownPayment(newPrice, 10);
+            }
+
+            return {
+                ...prev,
+                price: newPrice,
+                downPayment: newDownPayment
+            };
+        });
+    };
+
+    const handleDownPaymentChange = (downPayment: number) => {
+        setFormData(prev => ({
+            ...prev,
+            downPayment
+        }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -117,6 +153,10 @@ export default function CarForm({ car, isEdit = false }: CarFormProps) {
             features: prev.features.map((feature, i) => i === index ? value : feature)
         }));
     };
+
+    const downPaymentPercentage = formData.price > 0
+        ? Math.round((formData.downPayment / formData.price) * 100)
+        : 0;
 
     return (
         <div className="pt-20 min-h-screen bg-gray-50">
@@ -194,9 +234,35 @@ export default function CarForm({ car, isEdit = false }: CarFormProps) {
                                     required
                                     min="0"
                                     value={formData.price}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, price: parseInt(e.target.value) }))}
+                                    onChange={(e) => handlePriceChange(parseInt(e.target.value) || 0)}
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#D32F2F] focus:border-transparent"
                                 />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Down Payment (£)
+                                </label>
+                                <div className="space-y-2">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max={formData.price}
+                                        value={formData.downPayment}
+                                        onChange={(e) => handleDownPaymentChange(parseInt(e.target.value) || 0)}
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#D32F2F] focus:border-transparent"
+                                    />
+                                    {formData.price > 0 && (
+                                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                                            <Calculator className="w-4 h-4" />
+                                            <span>{downPaymentPercentage}% of total price</span>
+                                            {formData.downPayment > 0 && (
+                                                <span className="ml-auto font-semibold">
+                                                    Balance: £{(formData.price - formData.downPayment).toLocaleString()}
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">

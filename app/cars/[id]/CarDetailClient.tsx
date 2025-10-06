@@ -236,13 +236,44 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                 </div>
                             </div>
 
-                            {/* Price */}
-                            <p className="text-5xl font-bold text-[#D32F2F] mb-6">
-                                £{car.price?.toLocaleString()}
-                            </p>
+                            {/* Price and Down Payment */}
+                            <div className="mb-6">
+                                <p className="text-5xl font-bold text-[#D32F2F] mb-2">
+                                    £{car.price?.toLocaleString()}
+                                </p>
+                                {car.downPayment && car.downPayment > 0 && (
+                                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <p className="text-lg font-semibold text-green-800">
+                                                    Down Payment: £{car.downPayment.toLocaleString()}
+                                                </p>
+                                                <p className="text-sm text-green-600">
+                                                    {Math.round((car.downPayment / car.price) * 100)}% of total price
+                                                </p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-lg font-semibold text-[#001F3F]">
+                                                    Balance: £{(car.price - car.downPayment).toLocaleString()}
+                                                </p>
+                                                <p className="text-sm text-gray-600">Payable on delivery</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
 
                             {/* Quick Stats */}
                             <div className="grid grid-cols-2 gap-4 mb-6">
+                                {car.downPayment && car.downPayment > 0 && (
+                                    <div className="flex items-center space-x-3 p-4 bg-green-50 rounded-lg">
+                                        <CreditCard className="w-6 h-6 text-green-600" />
+                                        <div>
+                                            <p className="text-sm text-gray-600">Down Payment</p>
+                                            <p className="font-semibold text-[#001F3F]">£{car.downPayment.toLocaleString()}</p>
+                                        </div>
+                                    </div>
+                                )}
                                 <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
                                     <Calendar className="w-6 h-6 text-[#D32F2F]" />
                                     <div>

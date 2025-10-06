@@ -4,6 +4,7 @@ export interface Car {
     model: string;
     year: number;
     price: number;
+    downPayment?: number;
     mileage: number;
     fuelType: 'petrol' | 'diesel' | 'electric' | 'hybrid';
     transmission: 'manual' | 'automatic';
