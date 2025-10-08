@@ -6,6 +6,7 @@ import Footer from '@/components/shared/Footer';
 import WhatsAppButton from '@/components/shared/WhatsAppButton';
 import JivoChat from '@/components/shared/JivoChat';
 import {Providers} from "@/app/providers";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,6 +22,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+      	{/* Google Ads Tag */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17634261946"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17634261946');
+          `}
+        </Script>
+      </head>
       <body className={inter.className}>
         <Navigation />
         <main className="min-h-screen">
