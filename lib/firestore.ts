@@ -14,6 +14,7 @@ import {
     startAfter,
     DocumentData,
     QueryDocumentSnapshot, onSnapshot,
+    Timestamp,
 } from "firebase/firestore";
 import { Car, Review } from "@/types";
 
@@ -114,11 +115,11 @@ export const carService = {
 
 // Review operations
 export const reviewService = {
-    // Add new review
-    addReview: async (reviewData: Omit<Review, 'id'>): Promise<string> => {
+    // Add new review with custom createdAt
+    addReview: async (reviewData: Omit<Review, 'id'> & { createdAt?: Date }): Promise<string> => {
         const docRef = await addDoc(collection(db, "reviews"), {
             ...reviewData,
-            createdAt: new Date(),
+            createdAt: reviewData.createdAt || new Date(),
         });
         return docRef.id;
     },
@@ -162,8 +163,9 @@ export const reviewService = {
             );
         }
     },
-    // Update review
-    updateReview: async (id: string, updatedData: Partial<Review>): Promise<void> => {
+
+    // Update review with custom createdAt
+    updateReview: async (id: string, updatedData: Partial<Review> & { createdAt?: Date }): Promise<void> => {
         const reviewRef = doc(db, "reviews", id);
         await updateDoc(reviewRef, updatedData);
     },

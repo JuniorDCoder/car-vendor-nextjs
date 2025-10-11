@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Star, Save, ArrowLeft, Loader } from 'lucide-react';
+import { Star, Save, ArrowLeft, Loader, Calendar } from 'lucide-react';
 import { reviewService } from '@/lib/firestore';
 import { carService } from '@/lib/firestore';
 import { Review, Car } from '@/types';
@@ -24,17 +24,52 @@ export default function ReviewForm({ review, isEdit = false }: ReviewFormProps) 
         comment: '',
         carId: '',
         isApproved: true,
+        createdAt: new Date().toISOString().split('T')[0], // Default to today
     });
 
     useEffect(() => {
         loadCars();
         if (review) {
+            // Handle createdAt date conversion safely
+            let reviewDate = new Date().toISOString().split('T')[0];
+
+            if (review.createdAt) {
+                try {
+                    // Check if it's a Firestore Timestamp (has toDate method)
+                    if (review.createdAt && typeof review.createdAt === 'object' && 'toDate' in review.createdAt) {
+                        const date = (review.createdAt as any).toDate();
+                        reviewDate = date.toISOString().split('T')[0];
+                    }
+                    // Check if it's already a Date object
+                    else if (review.createdAt instanceof Date) {
+                        reviewDate = review.createdAt.toISOString().split('T')[0];
+                    }
+                    // Check if it's a string that can be converted to Date
+                    else if (typeof review.createdAt === 'string') {
+                        const date = new Date(review.createdAt);
+                        if (!isNaN(date.getTime())) {
+                            reviewDate = date.toISOString().split('T')[0];
+                        }
+                    }
+                    // Handle number timestamp
+                    else if (typeof review.createdAt === 'number') {
+                        const date = new Date(review.createdAt);
+                        reviewDate = date.toISOString().split('T')[0];
+                    }
+                } catch (error) {
+                    console.error('Error parsing createdAt date:', error);
+                    // Fallback to current date if parsing fails
+                    reviewDate = new Date().toISOString().split('T')[0];
+                }
+            }
+
             setFormData({
                 customerName: review.customerName,
                 rating: review.rating,
                 comment: review.comment,
                 carId: review.carId || '',
                 isApproved: review.isApproved,
+                createdAt: reviewDate,
             });
         }
     }, [review]);
@@ -53,11 +88,20 @@ export default function ReviewForm({ review, isEdit = false }: ReviewFormProps) 
         setLoading(true);
 
         try {
+            const reviewData = {
+                customerName: formData.customerName,
+                rating: formData.rating,
+                comment: formData.comment,
+                carId: formData.carId || null,
+                isApproved: formData.isApproved,
+                createdAt: new Date(formData.createdAt), // Use the selected date
+            };
+
             if (isEdit && review?.id) {
-                await reviewService.updateReview(review.id, formData);
+                await reviewService.updateReview(review.id, reviewData);
                 toast.success('Review updated successfully');
             } else {
-                await reviewService.addReview(formData);
+                await reviewService.addReview(reviewData);
                 toast.success('Review added successfully');
             }
             router.push('/admin/reviews');
@@ -130,6 +174,26 @@ export default function ReviewForm({ review, isEdit = false }: ReviewFormProps) 
                                 </button>
                             ))}
                         </div>
+                    </div>
+
+                    {/* Creation Date */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="flex items-center gap-2">
+                                <Calendar className="w-4 h-4" />
+                                Review Date *
+                            </div>
+                        </label>
+                        <input
+                            type="date"
+                            required
+                            value={formData.createdAt}
+                            onChange={(e) => setFormData(prev => ({ ...prev, createdAt: e.target.value }))}
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#D32F2F] focus:border-transparent"
+                        />
+                        <p className="text-sm text-gray-500 mt-1">
+                            Set the date when this review was created
+                        </p>
                     </div>
 
                     {/* Car Selection (Optional) */}
