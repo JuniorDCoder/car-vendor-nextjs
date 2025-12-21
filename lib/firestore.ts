@@ -31,7 +31,7 @@ export const carService = {
     },
 
     // Get all cars with pagination
-    getCars: async (itemsPerPage: number = 50, lastDoc: QueryDocumentSnapshot<DocumentData> | null = null) => {
+    getCars: async (itemsPerPage: number = 500, lastDoc: QueryDocumentSnapshot<DocumentData> | null = null) => {
         let q = query(
             collection(db, "cars"),
             orderBy("createdAt", "desc"),
@@ -73,7 +73,7 @@ export const carService = {
         const q = query(
             collection(db, 'cars'),
             orderBy('createdAt', 'desc'),
-            limit(50)
+            limit(500)
         );
 
         return onSnapshot(q, (querySnapshot) => {
