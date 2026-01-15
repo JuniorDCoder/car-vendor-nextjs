@@ -579,7 +579,7 @@ export default function Home() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                 <a
-                                    href="https://wa.me/07585900015?text=Hi%2C%20I'm%20interested%20in%20learning%20more%20about%20the%20cars%20available%20on%20your%20platform.%20Could%20you%20please%20provide%20me%20with%20more%20information%3F"
+                                    href="https://wa.me/+447585900015?text=Hi%2C%20I'm%20interested%20in%20learning%20more%20about%20the%20cars%20available%20on%20your%20platform.%20Could%20you%20please%20provide%20me%20with%20more%20information%3F"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="bg-[#10B981] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#059669] transition-all duration-300 shadow-2xl hover:shadow-3xl flex items-center space-x-2"
