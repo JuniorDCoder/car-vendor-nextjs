@@ -340,7 +340,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                             {car.status === 'available' && (
                                 <div className="flex gap-3">
                                     <a
-                                        href={`https://wa.me/447868364455?text=${generateQuickWhatsAppMessage()}`}
+                                        href={`https://wa.me/447585900015?text=${generateQuickWhatsAppMessage()}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex-1 bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors flex items-center justify-center"
@@ -349,7 +349,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                         Make Payment
                                     </a>
                                     <a
-                                        href={`https://wa.me/447868364455?text=${generateWhatsAppMessage()}`}
+                                        href={`https://wa.me/447585900015?text=${generateWhatsAppMessage()}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex-1 bg-[#D32F2F] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center"
