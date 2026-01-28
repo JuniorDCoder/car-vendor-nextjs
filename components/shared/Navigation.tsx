@@ -20,7 +20,7 @@ export default function Navigation() {
     const whatsappMessage = encodeURIComponent(
         "Hi Paul's Auto! I'm interested in learning more about your available cars."
     );
-    const whatsappNumber = '447585900015'; // Your phone number without + or spaces
+    const whatsappNumber = '447343044360'; // Your phone number without + or spaces
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
     return (
