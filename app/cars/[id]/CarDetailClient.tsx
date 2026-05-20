@@ -340,7 +340,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                             {car.status === 'available' && (
                                 <div className="flex gap-3">
                                     <a
-                                        href={`https://wa.me/447343044360?text=${generateQuickWhatsAppMessage()}`}
+                                        href={`https://wa.me/447897825907?text=${generateQuickWhatsAppMessage()}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex-1 bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors flex items-center justify-center"
@@ -349,7 +349,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                         Make Payment
                                     </a>
                                     <a
-                                        href={`https://wa.me/447343044360?text=${generateWhatsAppMessage()}`}
+                                        href={`https://wa.me/447897825907?text=${generateWhatsAppMessage()}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex-1 bg-[#D32F2F] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center"
@@ -550,12 +550,12 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                 <h3 className="font-semibold text-[#001F3F] mb-3">Quick Contact</h3>
                                 <div className="space-y-2 text-sm text-gray-600">
                                     <p>💬 <a
-                                        href={`https://wa.me/447343044360?text=${generateWhatsAppMessage()}`}
+                                        href={`https://wa.me/447897825907?text=${generateWhatsAppMessage()}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="hover:text-[#D32F2F]"
                                     >
-                                        WhatsApp: +447343044360
+                                        WhatsApp: +447897825907
                                     </a></p>
                                     <p>📧 <a href="mailto:info@paulsautocarsales.uk" className="hover:text-[#D32F2F]">info@paulsautocarsales.uk</a></p>
                                     <p>🕒 Mon-Sat: 9:00 AM - 6:00 PM</p>
