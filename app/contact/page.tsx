@@ -185,15 +185,15 @@ export default function ContactPage() {
                         {
                             icon: <MessageCircle className="w-8 h-8" />,
                             title: 'WhatsApp',
-                            content: '+447897825907',
-                            link: `https://wa.me/447897825907?text=${generateWhatsAppMessage()}`,
+                            content: '+447412800685',
+                            link: `https://wa.me/447412800685?text=${generateWhatsAppMessage()}`,
                             description: 'Quick chat for instant assistance'
                         },
                         {
                             icon: <Mail className="w-8 h-8" />,
                             title: 'Email',
-                            content: 'info@paulsautocarsales.uk',
-                            link: 'mailto:info@paulsautocarsales.uk',
+                            content: 'elliotricebirchall@gmail.com',
+                            link: 'mailto:elliotricebirchall@gmail.com',
                             description: 'Send us detailed inquiries'
                         },
                         {
@@ -395,7 +395,7 @@ export default function ContactPage() {
                                     Get instant answers to your questions via WhatsApp. We're here to help you find your perfect vehicle.
                                 </p>
                                 <a
-                                    href={`https://wa.me/447897825907?text=${generateWhatsAppMessage()}`}
+                                    href={`https://wa.me/447412800685?text=${generateWhatsAppMessage()}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="block w-full bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors text-center"
