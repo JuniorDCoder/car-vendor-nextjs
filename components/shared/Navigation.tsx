@@ -26,15 +26,11 @@ export default function Navigation() {
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-40 bg-[#001F3F]/95 backdrop-blur-sm border-b border-[#C0C0C0]/20">
+        <nav className="fixed top-0 left-0 right-0 z-40 bg-[#001F3F] border-b border-white/10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     <Link href="/" className="flex items-center space-x-3 group">
-                        <motion.div
-                            whileHover={{ scale: 1.08 }}
-                            transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-                            className="relative w-14 h-14 rounded-full ring-2 ring-[#D32F2F]/40 shadow-lg shadow-black/30"
-                        >
+                        <div className="relative w-14 h-14">
                             <Image
                                 src={siteConfig.logo}
                                 alt={`${siteConfig.name} logo`}
@@ -43,10 +39,10 @@ export default function Navigation() {
                                 priority
                                 className="object-contain rounded-full"
                             />
-                        </motion.div>
+                        </div>
                         <div className="leading-tight">
-                            <span className="block text-xl font-extrabold tracking-wide text-white">PREMIER</span>
-                            <span className="block text-[11px] font-semibold tracking-[0.25em] text-[#D32F2F]">AUTO CENTRE</span>
+                            <span className="block text-lg font-bold tracking-[0.08em] text-white">PREMIER</span>
+                            <span className="block text-[10px] font-semibold tracking-[0.3em] text-gray-300">AUTO CENTRE</span>
                         </div>
                     </Link>
 
@@ -55,7 +51,7 @@ export default function Navigation() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="text-white hover:text-[#FF5A5A] transition-colors duration-300 font-medium relative group"
+                                className="text-sm text-gray-200 hover:text-white transition-colors duration-300 font-medium relative group py-2"
                             >
                                 {link.label}
                                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D32F2F] group-hover:w-full transition-all duration-300" />
@@ -65,9 +61,9 @@ export default function Navigation() {
                             href={whatsappLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-[#10B981] text-white px-6 py-2 rounded-full hover:bg-[#059669] transition-colors duration-300 font-semibold"
+                            className="bg-[#D32F2F] text-white px-5 py-2.5 rounded-md hover:bg-[#B71C1C] transition-colors duration-300 text-sm font-semibold"
                         >
-                            WhatsApp Us
+                            Enquire on WhatsApp
                         </a>
                     </div>
 
@@ -94,7 +90,7 @@ export default function Navigation() {
                                     key={link.href}
                                     href={link.href}
                                     onClick={() => setIsOpen(false)}
-                                    className="block text-white hover:text-[#FF5A5A] transition-colors duration-300 font-medium py-2"
+                                    className="block text-white hover:text-[#D32F2F] transition-colors duration-300 font-medium py-2"
                                 >
                                     {link.label}
                                 </Link>
@@ -103,9 +99,9 @@ export default function Navigation() {
                                 href={whatsappLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block w-full text-center bg-[#10B981] text-white px-6 py-3 rounded-full hover:bg-[#059669] transition-colors duration-300 font-semibold"
+                                className="block w-full text-center bg-[#D32F2F] text-white px-6 py-3 rounded-md hover:bg-[#B71C1C] transition-colors duration-300 font-semibold"
                             >
-                                WhatsApp Us
+                                Enquire on WhatsApp
                             </a>
                         </div>
                     </motion.div>

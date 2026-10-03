@@ -111,7 +111,7 @@ export default function ContactPage() {
     if (submitted) {
         return (
             <div className="pt-20 min-h-screen bg-gray-50">
-                <section className="bg-gradient-to-r from-[#001F3F] to-[#003366] text-white py-16">
+                <section className="bg-[#001F3F] text-white py-16">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -149,7 +149,7 @@ export default function ContactPage() {
                         </div>
                         <button
                             onClick={() => setSubmitted(false)}
-                            className="mt-8 bg-[#D32F2F] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors"
+                            className="mt-8 bg-[#D32F2F] text-white px-8 py-3 rounded-md font-semibold hover:bg-[#B71C1C] transition-colors"
                         >
                             Send Another Message
                         </button>
@@ -161,7 +161,7 @@ export default function ContactPage() {
 
     return (
         <div className="pt-20 min-h-screen bg-gray-50">
-            <section className="bg-gradient-to-r from-[#001F3F] to-[#003366] text-white py-16">
+            <section className="bg-[#001F3F] text-white py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -306,7 +306,7 @@ export default function ContactPage() {
                                 <button
                                     type="submit"
                                     disabled={submitting}
-                                    className="w-full bg-[#D32F2F] text-white px-6 py-4 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full bg-[#D32F2F] text-white px-6 py-4 rounded-md font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {submitting ? (
                                         <>
@@ -389,7 +389,7 @@ export default function ContactPage() {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.3 }}
                         >
-                            <div className="bg-gradient-to-br from-[#001F3F] to-[#003366] rounded-2xl p-8 text-white">
+                            <div className="bg-[#001F3F] rounded-2xl p-8 text-white">
                                 <h3 className="text-2xl font-bold mb-4">Prefer to Chat?</h3>
                                 <p className="text-[#C0C0C0] mb-6">
                                     Get instant answers to your questions via WhatsApp. We're here to help you find your perfect vehicle.
@@ -398,7 +398,7 @@ export default function ContactPage() {
                                     href={`https://wa.me/447412800685?text=${generateWhatsAppMessage()}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block w-full bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors text-center"
+                                    className="block w-full bg-green-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-600 transition-colors text-center"
                                 >
                                     <MessageCircle className="w-5 h-5 inline mr-2" />
                                     WhatsApp Us

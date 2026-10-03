@@ -17,7 +17,7 @@ export default function AboutPage() {
 
   return (
     <div className="pt-20 min-h-screen">
-      <section className="relative h-96 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#001F3F] via-[#003366] to-[#001F3F]">
+      <section className="relative h-96 flex items-center justify-center overflow-hidden bg-[#001F3F]">
         <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1035108/pexels-photo-1035108.jpeg')] bg-cover bg-center opacity-20" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -113,7 +113,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-br from-[#001F3F] to-[#003366] text-white">
+      <section className="py-20 bg-[#001F3F] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16" data-aos="fade-up">
             <h2 className="text-4xl font-bold mb-4">
@@ -156,13 +156,13 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/cars"
-              className="bg-[#D32F2F] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#B71C1C] transition-all duration-300 inline-flex items-center justify-center"
+              className="bg-[#D32F2F] text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-[#B71C1C] transition-all duration-300 inline-flex items-center justify-center"
             >
               Browse Our Cars <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <Link
               href="/contact"
-              className="bg-[#001F3F] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#003366] transition-all duration-300"
+              className="bg-[#001F3F] text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-[#003366] transition-all duration-300"
             >
               Contact Us
             </Link>

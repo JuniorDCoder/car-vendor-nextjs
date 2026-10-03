@@ -69,7 +69,7 @@ export default function ReviewsPage() {
     return (
         <div className="pt-20 min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-[#001F3F] to-[#003366] text-white py-16">
+            <section className="bg-[#001F3F] text-white py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -173,7 +173,7 @@ export default function ReviewsPage() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.5 }}
-                        className="mt-16 bg-gradient-to-r from-[#001F3F] to-[#003366] rounded-2xl p-8 text-white text-center"
+                        className="mt-16 bg-[#001F3F] rounded-2xl p-8 text-white text-center"
                     >
                         <h2 className="text-3xl font-bold mb-4">Join Our Happy Customers</h2>
                         <p className="text-xl text-[#C0C0C0] mb-6">
