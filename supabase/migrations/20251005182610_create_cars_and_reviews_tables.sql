@@ -1,5 +1,5 @@
 /*
-  # Paul's Auto Car Sales - Database Schema
+  # Premier Auto Centre - Database Schema
 
   1. New Tables
     - `cars`

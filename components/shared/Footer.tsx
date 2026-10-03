@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import { Car, Phone, Mail, MapPin } from 'lucide-react';
+import Image from 'next/image';
+import { Mail, MapPin } from 'lucide-react';
+import { siteConfig } from '@/lib/site';
 
 export default function Footer() {
   return (
@@ -7,15 +9,21 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Car className="w-8 h-8 text-[#D32F2F]" />
-              <div>
-                <h3 className="text-lg font-bold">Paul's Auto</h3>
-                <p className="text-sm text-[#C0C0C0]">Car Sales</p>
+            <Link href="/" className="flex items-center space-x-3 mb-4">
+              <Image
+                src={siteConfig.logo}
+                alt={`${siteConfig.name} logo`}
+                width={64}
+                height={64}
+                className="rounded-full"
+              />
+              <div className="leading-tight">
+                <h3 className="text-lg font-extrabold tracking-wide">PREMIER</h3>
+                <p className="text-xs font-semibold tracking-[0.25em] text-[#D32F2F]">AUTO CENTRE</p>
               </div>
-            </div>
+            </Link>
             <p className="text-[#C0C0C0] text-sm">
-              Drive Your Dream, Today.
+              {siteConfig.tagline}
             </p>
           </div>
 
@@ -73,7 +81,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[#C0C0C0]/20 mt-8 pt-8 text-center text-[#C0C0C0] text-sm">
-          <p>&copy; {new Date().getFullYear()} Paul's Auto Car Sales. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
         </div>
       </div>
     </footer>

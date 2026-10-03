@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AOS from 'aos';
 import {
     ArrowRight,
@@ -18,8 +18,8 @@ import {
     MapPin,
     Phone,
     Mail,
-    ArrowDown
 } from 'lucide-react';
+import Hero from '@/components/sections/Hero';
 import { carService } from '@/lib/firestore';
 import { reviewService } from '@/lib/firestore';
 import { Car as CarType, Review } from '@/types';
@@ -34,10 +34,6 @@ export default function Home() {
         availableCars: 24
     });
     const [loading, setLoading] = useState(true);
-
-    const { scrollY } = useScroll();
-    const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-    const scale = useTransform(scrollY, [0, 300], [1, 1.2]);
 
     useEffect(() => {
         AOS.init({
@@ -97,137 +93,9 @@ export default function Home() {
         }
     };
 
-    const floatingAnimation = {
-        y: [0, -20, 0],
-        transition: {
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut"
-        }
-    };
-
     return (
         <div className="pt-20">
-            {/* Hero Section with Parallax */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#001F3F] via-[#003366] to-[#001a33]">
-                {/* Animated Background Elements */}
-                <motion.div
-                    className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"
-                    style={{ opacity, scale }}
-                />
-
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#001F3F]/80 to-[#003366]/60" />
-
-                {/* Floating Elements */}
-                <motion.div
-                    className="absolute top-20 left-10 w-20 h-20 bg-[#D32F2F]/20 rounded-full blur-xl"
-                    animate={floatingAnimation}
-                />
-                <motion.div
-                    className="absolute bottom-20 right-10 w-16 h-16 bg-[#D32F2F]/30 rounded-full blur-lg"
-                    animate={floatingAnimation}
-                    transition={{ delay: 1 }}
-                />
-
-                <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <motion.div variants={itemVariants} className="mb-6">
-                            <motion.span
-                                className="inline-block bg-[#D32F2F]/20 text-[#D32F2F] px-4 py-2 rounded-full text-sm font-semibold border border-[#D32F2F]/30"
-                                whileHover={{ scale: 1.05 }}
-                            >
-                                🏆 Trusted Car Dealership Since 2018
-                            </motion.span>
-                        </motion.div>
-
-                        <motion.h1
-                            variants={itemVariants}
-                            className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight"
-                        >
-                            Drive Your
-                            <motion.span
-                                className="block text-[#D32F2F] bg-gradient-to-r from-[#D32F2F] to-[#FF6B6B] bg-clip-text text-transparent"
-                                whileHover={{ scale: 1.02 }}
-                            >
-                                Dream Car
-                            </motion.span>
-                        </motion.h1>
-
-                        <motion.p
-                            variants={itemVariants}
-                            className="text-xl md:text-2xl text-[#C0C0C0] mb-8 max-w-3xl mx-auto leading-relaxed"
-                        >
-                            Discover premium quality used cars in London. From luxury sedans to family SUVs,
-                            we help you find the perfect vehicle with complete peace of mind.
-                        </motion.p>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="flex flex-col sm:flex-row md:gap-4 gap-7 justify-center items-center mb-12"
-                        >
-                            <Link
-                                href="/cars"
-                                className="group relative bg-[#D32F2F] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#B71C1C] transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 flex items-center space-x-2 overflow-hidden"
-                            >
-                                <span className="relative z-10">Browse Our Collection</span>
-                                <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                            </Link>
-
-                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                <Link
-                                    href="/contact"
-                                    className="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/20 transition-all duration-300 border-2 border-white/30 hover:border-white/50"
-                                >
-                                    Book a Test Drive
-                                </Link>
-                            </motion.div>
-                        </motion.div>
-
-                        {/* Stats */}
-                        <motion.div
-                            variants={itemVariants}
-                            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto"
-                        >
-                            {[
-                                { number: `${stats.happyCustomers}+`, label: 'Happy Customers' },
-                                { number: `${stats.soldCars}+`, label: 'Cars Sold' },
-                                { number: stats.averageRating, label: 'Star Rating', icon: <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" /> },
-                                { number: `${stats.availableCars}+`, label: 'Available Now' },
-                            ].map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    className="text-center p-4 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
-                                    whileHover={{ y: -5 }}
-                                >
-                                    <div className="flex items-center justify-center space-x-1 mb-1">
-                                        <div className="text-2xl font-bold text-[#D32F2F]">{stat.number}</div>
-                                        {stat.icon}
-                                    </div>
-                                    <div className="text-xs text-[#C0C0C0]">{stat.label}</div>
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    </motion.div>
-                </div>
-
-                {/* Scroll Indicator */}
-                <motion.div
-                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                >
-                    <div className="flex flex-col items-center space-y-2">
-                        <span className="text-white/70 text-sm">Scroll to explore</span>
-                        <ArrowDown className="w-5 h-5 text-white/70" />
-                    </div>
-                </motion.div>
-            </section>
+            <Hero stats={stats} />
 
             {/* Featured Vehicles Section */}
             <section className="py-20 bg-white relative overflow-hidden">
@@ -390,7 +258,7 @@ export default function Home() {
                         className="text-center mb-16"
                     >
                         <h2 className="text-4xl md:text-6xl font-bold mb-4">
-                            Why Choose <span className="text-[#D32F2F]">Paul's Auto?</span>
+                            Why Choose <span className="text-[#D32F2F]">Premier Auto Centre?</span>
                         </h2>
                         <p className="text-lg text-[#C0C0C0] max-w-2xl mx-auto">
                             Experience the difference with our commitment to quality, transparency, and customer satisfaction
@@ -573,7 +441,7 @@ export default function Home() {
                         </h2>
 
                         <p className="text-xl text-[#C0C0C0] mb-8 max-w-2xl mx-auto leading-relaxed">
-                            Visit our showroom in London or schedule a virtual tour. Our team is ready to help you drive away in your dream car.
+                            Visit our showroom in Durham or schedule a virtual tour. Our team is ready to help you drive away in your dream car.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">

@@ -37,7 +37,7 @@ export const authService = {
     // Check if user is admin (you can add custom claims in Firebase)
     isAdmin: async (user: User): Promise<boolean> => {
         // You can implement custom logic here, like checking Firestore for admin role
-        // const allowedDomains = ['paulsauto.co.uk'];
+        // const allowedDomains = ['premierautocentre.co.uk'];
         // return allowedDomains.some(domain => user.email?.endsWith(domain));
 
         return true;

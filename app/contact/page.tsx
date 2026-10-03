@@ -65,7 +65,7 @@ export default function ContactPage() {
     };
 
     const generateWhatsAppMessage = () => {
-        const message = `Hello Paul's Auto! I'd like to get more information about your cars and services. Please contact me back. Thank you!`;
+        const message = `Hello Premier Auto Centre! I'd like to get more information about your cars and services. Please contact me back. Thank you!`;
         return encodeURIComponent(message);
     };
 
@@ -141,7 +141,7 @@ export default function ContactPage() {
                             Message Sent Successfully!
                         </h2>
                         <p className="text-gray-600 mb-6 text-lg">
-                            Thank you for contacting Paul's Auto. We have received your message and will get back to you within 24 hours.
+                            Thank you for contacting Premier Auto Centre. We have received your message and will get back to you within 24 hours.
                         </p>
                         <div className="space-y-3 text-gray-500">
                             <p>📧 We'll respond to: <strong>{formData.email}</strong></p>
@@ -371,7 +371,7 @@ export default function ContactPage() {
                                     allowFullScreen
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
-                                    title="Paul's Auto Location - The Car Showroom, Durham"
+                                    title="Premier Auto Centre Location - The Car Showroom, Durham"
                                 />
                                 <div className="p-4 bg-gray-50">
                                     <h4 className="font-semibold text-[#001F3F]">Our Showroom</h4>

@@ -27,7 +27,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-              About <span className="text-[#D32F2F]">Paul's Auto</span>
+              About <span className="text-[#D32F2F]">Premier Auto Centre</span>
             </h1>
             <p className="text-xl text-[#C0C0C0]">
               Your trusted partner for premium quality vehicles
@@ -44,19 +44,19 @@ export default function AboutPage() {
                 Our Story
               </h2>
               <p className="text-gray-700 text-lg mb-4 leading-relaxed">
-                Welcome to Paul's Auto Car Sales, where passion for automobiles meets exceptional customer service. Founded with a vision to revolutionize the car buying experience in the UK, we've been helping customers find their perfect vehicles for years.
+                Welcome to Premier Auto Centre, where passion for automobiles meets exceptional customer service. Founded with a vision to revolutionize the car buying experience in the UK, we've been helping customers find their perfect vehicles for years.
               </p>
               <p className="text-gray-700 text-lg mb-4 leading-relaxed">
                 What started as a small family business has grown into one of the most trusted names in quality used car sales. We pride ourselves on our carefully curated selection of premium vehicles, transparent pricing, and commitment to customer satisfaction.
               </p>
               <p className="text-gray-700 text-lg leading-relaxed">
-                Every car in our showroom undergoes rigorous inspection to ensure it meets our high standards. When you buy from Paul's Auto, you're not just buying a car – you're joining a family of satisfied customers who trust us for their automotive needs.
+                Every car in our showroom undergoes rigorous inspection to ensure it meets our high standards. When you buy from Premier Auto Centre, you're not just buying a car – you're joining a family of satisfied customers who trust us for their automotive needs.
               </p>
             </div>
             <div data-aos="fade-left" className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src="https://images.pexels.com/photos/3972755/pexels-photo-3972755.jpeg"
-                alt="Paul's Auto Showroom"
+                alt="Premier Auto Centre Showroom"
                 className="w-full h-full object-cover"
               />
             </div>

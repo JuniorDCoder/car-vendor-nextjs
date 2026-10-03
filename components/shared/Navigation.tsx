@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Car } from 'lucide-react';
+import Image from 'next/image';
+import { Menu, X } from 'lucide-react';
+import { siteConfig } from '@/lib/site';
 
 const navLinks = [
     { href: '/', label: 'Home' },
@@ -18,9 +20,9 @@ export default function Navigation() {
 
     // WhatsApp message template
     const whatsappMessage = encodeURIComponent(
-        "Hi Paul's Auto! I'm interested in learning more about your available cars."
+        `Hi ${siteConfig.name}! I'm interested in learning more about your available cars.`
     );
-    const whatsappNumber = '447412800685'; // Your phone number without + or spaces
+    const whatsappNumber = siteConfig.whatsappNumber; // Phone number without + or spaces
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
     return (
@@ -29,14 +31,22 @@ export default function Navigation() {
                 <div className="flex items-center justify-between h-20">
                     <Link href="/" className="flex items-center space-x-3 group">
                         <motion.div
-                            whileHover={{ rotate: 360 }}
-                            transition={{ duration: 0.6 }}
+                            whileHover={{ scale: 1.08 }}
+                            transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                            className="relative w-14 h-14 rounded-full ring-2 ring-[#D32F2F]/40 shadow-lg shadow-black/30"
                         >
-                            <Car className="w-8 h-8 text-[#10B981]" />
+                            <Image
+                                src={siteConfig.logo}
+                                alt={`${siteConfig.name} logo`}
+                                fill
+                                sizes="56px"
+                                priority
+                                className="object-contain rounded-full"
+                            />
                         </motion.div>
-                        <div>
-                            <h1 className="text-xl font-bold text-white">Paul's Auto</h1>
-                            <p className="text-xs text-[#C0C0C0]">Car Sales</p>
+                        <div className="leading-tight">
+                            <span className="block text-xl font-extrabold tracking-wide text-white">PREMIER</span>
+                            <span className="block text-[11px] font-semibold tracking-[0.25em] text-[#D32F2F]">AUTO CENTRE</span>
                         </div>
                     </Link>
 
@@ -45,10 +55,10 @@ export default function Navigation() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="text-white hover:text-[#10B981] transition-colors duration-300 font-medium relative group"
+                                className="text-white hover:text-[#FF5A5A] transition-colors duration-300 font-medium relative group"
                             >
                                 {link.label}
-                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#10B981] group-hover:w-full transition-all duration-300" />
+                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#D32F2F] group-hover:w-full transition-all duration-300" />
                             </Link>
                         ))}
                         <a
@@ -84,7 +94,7 @@ export default function Navigation() {
                                     key={link.href}
                                     href={link.href}
                                     onClick={() => setIsOpen(false)}
-                                    className="block text-white hover:text-[#10B981] transition-colors duration-300 font-medium py-2"
+                                    className="block text-white hover:text-[#FF5A5A] transition-colors duration-300 font-medium py-2"
                                 >
                                     {link.label}
                                 </Link>

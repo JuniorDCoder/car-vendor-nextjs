@@ -32,7 +32,7 @@ export default function CarDetailWrapper({ carId }: CarDetailWrapperProps) {
                 } else {
                     setCar(carData);
                     // Update document title for SEO
-                    document.title = `${carData.make} ${carData.model} ${carData.year} - Paul's Auto`;
+                    document.title = `${carData.make} ${carData.model} ${carData.year} - Premier Auto Centre`;
                 }
             } catch (err) {
                 console.error('Error loading car:', err);
