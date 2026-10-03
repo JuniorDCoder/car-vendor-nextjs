@@ -17,7 +17,7 @@ export default function AboutPage() {
 
   return (
     <div className="pt-20 min-h-screen">
-      <section className="relative h-96 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#001F3F] via-[#003366] to-[#001F3F]">
+      <section className="relative h-96 flex items-center justify-center overflow-hidden bg-[#001F3F]">
         <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1035108/pexels-photo-1035108.jpeg')] bg-cover bg-center opacity-20" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -27,7 +27,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-              About <span className="text-[#D32F2F]">Paul's Auto</span>
+              About <span className="text-[#D32F2F]">Premier Auto Centre</span>
             </h1>
             <p className="text-xl text-[#C0C0C0]">
               Your trusted partner for premium quality vehicles
@@ -44,19 +44,19 @@ export default function AboutPage() {
                 Our Story
               </h2>
               <p className="text-gray-700 text-lg mb-4 leading-relaxed">
-                Welcome to Paul's Auto Car Sales, where passion for automobiles meets exceptional customer service. Founded with a vision to revolutionize the car buying experience in the UK, we've been helping customers find their perfect vehicles for years.
+                Welcome to Premier Auto Centre, where passion for automobiles meets exceptional customer service. Founded with a vision to revolutionize the car buying experience in the UK, we've been helping customers find their perfect vehicles for years.
               </p>
               <p className="text-gray-700 text-lg mb-4 leading-relaxed">
                 What started as a small family business has grown into one of the most trusted names in quality used car sales. We pride ourselves on our carefully curated selection of premium vehicles, transparent pricing, and commitment to customer satisfaction.
               </p>
               <p className="text-gray-700 text-lg leading-relaxed">
-                Every car in our showroom undergoes rigorous inspection to ensure it meets our high standards. When you buy from Paul's Auto, you're not just buying a car – you're joining a family of satisfied customers who trust us for their automotive needs.
+                Every car in our showroom undergoes rigorous inspection to ensure it meets our high standards. When you buy from Premier Auto Centre, you're not just buying a car – you're joining a family of satisfied customers who trust us for their automotive needs.
               </p>
             </div>
             <div data-aos="fade-left" className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src="https://images.pexels.com/photos/3972755/pexels-photo-3972755.jpeg"
-                alt="Paul's Auto Showroom"
+                alt="Premier Auto Centre Showroom"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -113,7 +113,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-br from-[#001F3F] to-[#003366] text-white">
+      <section className="py-20 bg-[#001F3F] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16" data-aos="fade-up">
             <h2 className="text-4xl font-bold mb-4">
@@ -156,13 +156,13 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/cars"
-              className="bg-[#D32F2F] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#B71C1C] transition-all duration-300 inline-flex items-center justify-center"
+              className="bg-[#D32F2F] text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-[#B71C1C] transition-all duration-300 inline-flex items-center justify-center"
             >
               Browse Our Cars <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <Link
               href="/contact"
-              className="bg-[#001F3F] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#003366] transition-all duration-300"
+              className="bg-[#001F3F] text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-[#003366] transition-all duration-300"
             >
               Contact Us
             </Link>

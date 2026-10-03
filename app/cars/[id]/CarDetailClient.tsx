@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import AOS from 'aos';
+import { siteConfig } from '@/lib/site';
 import {
     ArrowLeft,
     MessageCircle,
@@ -343,7 +344,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                         href={`https://wa.me/447412800685?text=${generateQuickWhatsAppMessage()}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex-1 bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors flex items-center justify-center"
+                                        className="flex-1 bg-green-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-600 transition-colors flex items-center justify-center"
                                     >
                                         <CreditCard className="w-5 h-5 mr-2" />
                                         Make Payment
@@ -352,7 +353,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                         href={`https://wa.me/447412800685?text=${generateWhatsAppMessage()}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex-1 bg-[#D32F2F] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center"
+                                        className="flex-1 bg-[#D32F2F] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center"
                                     >
                                         <MessageCircle className="w-5 h-5 mr-2" />
                                         WhatsApp
@@ -529,7 +530,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                 <button
                                     type="submit"
                                     disabled={submitting || car.status !== 'available'}
-                                    className="w-full bg-[#D32F2F] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full bg-[#D32F2F] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#B71C1C] transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {submitting ? (
                                         <>
@@ -557,7 +558,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                     >
                                         WhatsApp: +447412800685
                                     </a></p>
-                                    <p>📧 <a href="mailto:elliotricebirchall@gmail.com" className="hover:text-[#D32F2F]">elliotricebirchall@gmail.com</a></p>
+                                    <p>📧 <a href={`mailto:${siteConfig.contactEmail}`} className="hover:text-[#D32F2F]">{siteConfig.contactEmail}</a></p>
                                     <p>🕒 Mon-Sat: 9:00 AM - 6:00 PM</p>
                                 </div>
                             </div>

@@ -3,7 +3,9 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Lock, Mail, AlertCircle, Car } from 'lucide-react';
+import Image from 'next/image';
+import { Lock, Mail, AlertCircle } from 'lucide-react';
+import { siteConfig } from '@/lib/site';
 import { authService } from '@/lib/auth';
 import toast from 'react-hot-toast';
 
@@ -50,11 +52,15 @@ export default function AdminLogin() {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <div className="flex items-center justify-center space-x-3 mb-4">
-                        <div className="w-12 h-12 bg-[#D32F2F] rounded-xl flex items-center justify-center">
-                            <Car className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                            <h1 className="text-2xl font-bold text-[#001F3F]">Paul's Auto</h1>
+                        <Image
+                            src={siteConfig.logo}
+                            alt={`${siteConfig.name} logo`}
+                            width={64}
+                            height={64}
+                            className="rounded-full"
+                        />
+                        <div className="text-left">
+                            <h1 className="text-2xl font-bold text-[#001F3F]">{siteConfig.name}</h1>
                             <p className="text-sm text-gray-600">Admin Portal</p>
                         </div>
                     </div>
@@ -86,7 +92,7 @@ export default function AdminLogin() {
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#D32F2F] focus:border-transparent"
-                                placeholder="admin@paulsauto.co.uk"
+                                placeholder="admin@premierautocentre.co.uk"
                             />
                         </div>
                     </div>

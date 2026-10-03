@@ -29,6 +29,19 @@ export default function CarsClient({ initialCars }: CarsClientProps) {
         status: 'available',
     });
 
+    // Pre-fill filters from the homepage quick search (e.g. /cars/?make=BMW&maxPrice=20000)
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const fromUrl = {
+            make: params.get('make') || '',
+            fuelType: params.get('fuelType') || '',
+            maxPrice: params.get('maxPrice') || '',
+        };
+        if (fromUrl.make || fromUrl.fuelType || fromUrl.maxPrice) {
+            setFilters(prev => ({ ...prev, ...fromUrl }));
+        }
+    }, []);
+
     useEffect(() => {
         AOS.init({
             duration: 800,
@@ -110,7 +123,7 @@ export default function CarsClient({ initialCars }: CarsClientProps) {
     return (
         <div className="pt-20 min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-[#001F3F] to-[#003366] text-white py-16">
+            <section className="bg-[#001F3F] text-white py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -354,7 +367,7 @@ export default function CarsClient({ initialCars }: CarsClientProps) {
                         </p>
                         <button
                             onClick={clearFilters}
-                            className="bg-[#D32F2F] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors"
+                            className="bg-[#D32F2F] text-white px-8 py-3 rounded-md font-semibold hover:bg-[#B71C1C] transition-colors"
                         >
                             Clear Filters & Show All
                         </button>
