@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import AOS from 'aos';
+import { siteConfig } from '@/lib/site';
 import {
     ArrowLeft,
     MessageCircle,
@@ -557,7 +558,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
                                     >
                                         WhatsApp: +447412800685
                                     </a></p>
-                                    <p>📧 <a href="mailto:elliotricebirchall@gmail.com" className="hover:text-[#D32F2F]">elliotricebirchall@gmail.com</a></p>
+                                    <p>📧 <a href={`mailto:${siteConfig.contactEmail}`} className="hover:text-[#D32F2F]">{siteConfig.contactEmail}</a></p>
                                     <p>🕒 Mon-Sat: 9:00 AM - 6:00 PM</p>
                                 </div>
                             </div>

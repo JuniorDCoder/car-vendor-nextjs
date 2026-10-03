@@ -7,6 +7,8 @@ import { MessageCircle, Mail, MapPin, Clock, Send, Loader, CheckCircle } from 'l
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import toast from 'react-hot-toast';
+import { siteConfig } from '@/lib/site';
+import { buildMailtoLink } from '@/lib/mailto';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -18,6 +20,8 @@ export default function ContactPage() {
     });
     const [submitting, setSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    // Snapshot of the last submission, used by the confirmation screen after the form resets
+    const [lastSubmission, setLastSubmission] = useState({ name: '', email: '', phone: '', mailtoLink: '' });
     const [notificationsSupported, setNotificationsSupported] = useState(false);
 
     useEffect(() => {
@@ -48,18 +52,18 @@ export default function ContactPage() {
         }
     };
 
-    const sendAdminNotification = () => {
+    const sendAdminNotification = (data: typeof formData) => {
         // This would typically call your notification service
         // For now, we'll just log it and show browser notification
         console.log('📧 New contact form submission:', {
-            name: formData.name,
-            email: formData.email,
-            subject: formData.subject
+            name: data.name,
+            email: data.email,
+            subject: data.subject
         });
 
         // Browser notification for admin (you'd see this if you have the admin panel open)
         sendBrowserNotification('📧 New Contact Form', {
-            body: `From: ${formData.name} - ${formData.subject}`,
+            body: `From: ${data.name} - ${data.subject}`,
             tag: 'contact-form'
         });
     };
@@ -69,43 +73,50 @@ export default function ContactPage() {
         return encodeURIComponent(message);
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const buildEnquiryEmail = (data: typeof formData) => {
+        const subject = `${data.subject.trim()} - Website enquiry from ${data.name.trim()}`;
+        const body = [
+            `Hello ${siteConfig.name},`,
+            '',
+            data.message.trim(),
+            '',
+            '---',
+            `Name: ${data.name.trim()}`,
+            `Email: ${data.email.trim()}`,
+            ...(data.phone.trim() ? [`Phone: ${data.phone.trim()}`] : []),
+            '',
+            `Sent from the ${siteConfig.name} website contact form`,
+        ].join('\n');
+
+        return buildMailtoLink({ to: siteConfig.contactEmail, subject, body });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setSubmitting(true);
 
-        try {
-            // 1. Store in Firestore
-            await addDoc(collection(db, 'contactSubmissions'), {
-                name: formData.name,
-                email: formData.email,
-                phone: formData.phone,
-                subject: formData.subject,
-                message: formData.message,
-                status: 'new',
-                read: false,
-                createdAt: serverTimestamp(),
-            });
+        const submission = { ...formData };
+        const mailtoLink = buildEnquiryEmail(submission);
 
-            // 2. Send notifications
-            sendAdminNotification();
+        // 1. Open the visitor's mail app with the enquiry pre-filled. Done first, while still
+        //    inside the click handler, so browsers treat it as a user action.
+        window.location.href = mailtoLink;
 
-            // 3. Browser notification for user
-            if (notificationsSupported) {
-                sendBrowserNotification('Message Sent Successfully!', {
-                    body: `Thank you ${formData.name}! We'll contact you soon.`,
-                });
-            }
+        // 2. Keep a copy in Firestore so the enquiry also shows in the admin panel.
+        //    Best-effort and not awaited: a slow or failed save must never block the email.
+        addDoc(collection(db, 'contactSubmissions'), {
+            ...submission,
+            status: 'new',
+            read: false,
+            createdAt: serverTimestamp(),
+        }).catch((error) => console.error('Error saving contact submission:', error));
+        sendAdminNotification(submission);
 
-            toast.success('Message sent successfully! We will get back to you within 24 hours.');
-            setSubmitted(true);
-            setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-
-        } catch (error) {
-            console.error('Error sending message:', error);
-            toast.error('Failed to send message. Please try again or contact us directly.');
-        } finally {
-            setSubmitting(false);
-        }
+        setLastSubmission({ name: submission.name, email: submission.email, phone: submission.phone, mailtoLink });
+        toast.success('Your email app is opening with your message ready to send.');
+        setSubmitted(true);
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+        setSubmitting(false);
     };
 
     if (submitted) {
@@ -120,10 +131,10 @@ export default function ContactPage() {
                             className="text-center"
                         >
                             <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                                Thank <span className="text-[#D32F2F]">You!</span>
+                                Almost <span className="text-[#D32F2F]">done</span>
                             </h1>
                             <p className="text-xl text-[#C0C0C0]">
-                                Your message has been received
+                                Just press send in your email app
                             </p>
                         </motion.div>
                     </div>
@@ -138,21 +149,32 @@ export default function ContactPage() {
                     >
                         <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-6" />
                         <h2 className="text-3xl font-bold text-[#001F3F] mb-4">
-                            Message Sent Successfully!
+                            Thanks, {lastSubmission.name.split(' ')[0] || 'there'}!
                         </h2>
                         <p className="text-gray-600 mb-6 text-lg">
-                            Thank you for contacting Premier Auto Centre. We have received your message and will get back to you within 24 hours.
+                            Your email app should now be open with your message addressed to{' '}
+                            <strong className="text-[#001F3F]">{siteConfig.contactEmail}</strong>. Press send and
+                            we&apos;ll get back to you within 24 hours.
                         </p>
-                        <div className="space-y-3 text-gray-500">
-                            <p>📧 We'll respond to: <strong>{formData.email}</strong></p>
-                            {formData.phone && <p>📞 We'll call: <strong>{formData.phone}</strong></p>}
+                        <div className="space-y-2 text-gray-500">
+                            <p>We&apos;ll reply to: <strong>{lastSubmission.email}</strong></p>
+                            {lastSubmission.phone && <p>Or call you on: <strong>{lastSubmission.phone}</strong></p>}
                         </div>
-                        <button
-                            onClick={() => setSubmitted(false)}
-                            className="mt-8 bg-[#D32F2F] text-white px-8 py-3 rounded-md font-semibold hover:bg-[#B71C1C] transition-colors"
-                        >
-                            Send Another Message
-                        </button>
+                        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                            <a
+                                href={lastSubmission.mailtoLink}
+                                className="inline-flex items-center justify-center gap-2 bg-[#001F3F] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#0A2E55] transition-colors"
+                            >
+                                <Mail className="w-4 h-4" />
+                                Email app didn&apos;t open? Try again
+                            </a>
+                            <button
+                                onClick={() => setSubmitted(false)}
+                                className="bg-[#D32F2F] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#B71C1C] transition-colors"
+                            >
+                                Send another message
+                            </button>
+                        </div>
                     </motion.div>
                 </div>
             </div>
@@ -192,8 +214,8 @@ export default function ContactPage() {
                         {
                             icon: <Mail className="w-8 h-8" />,
                             title: 'Email',
-                            content: 'elliotricebirchall@gmail.com',
-                            link: 'mailto:elliotricebirchall@gmail.com',
+                            content: siteConfig.contactEmail,
+                            link: `mailto:${siteConfig.contactEmail}`,
                             description: 'Send us detailed inquiries'
                         },
                         {
@@ -311,7 +333,7 @@ export default function ContactPage() {
                                     {submitting ? (
                                         <>
                                             <Loader className="w-5 h-5 mr-2 animate-spin" />
-                                            Sending...
+                                            Opening email...
                                         </>
                                     ) : (
                                         <>
@@ -321,7 +343,7 @@ export default function ContactPage() {
                                     )}
                                 </button>
                                 <p className="text-sm text-gray-500 text-center">
-                                    We typically respond within 2-4 hours during business hours
+                                    Opens your email app with your message ready to send to {siteConfig.contactEmail}
                                 </p>
                             </form>
                         </div>
