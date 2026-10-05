@@ -71,13 +71,13 @@ export default function CarDetailWrapper({ carId }: CarDetailWrapperProps) {
                     <div className="flex gap-4 justify-center">
                         <Link
                             href="/cars"
-                            className="bg-[#D32F2F] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#B71C1C] transition-colors inline-block"
+                            className="bg-[#D32F2F] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#B71C1C] transition-colors inline-block"
                         >
                             Browse All Cars
                         </Link>
                         <button
                             onClick={() => router.back()}
-                            className="bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-semibold hover:bg-gray-300 transition-colors"
+                            className="bg-gray-200 text-gray-700 px-6 py-3 rounded-md font-semibold hover:bg-gray-300 transition-colors"
                         >
                             Go Back
                         </button>

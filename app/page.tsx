@@ -18,10 +18,10 @@ import {
     Check,
 } from 'lucide-react';
 import Hero from '@/components/sections/Hero';
-import { carService } from '@/lib/firestore';
-import { reviewService } from '@/lib/firestore';
+import ScreenshotReviews from '@/components/sections/ScreenshotReviews';
+import { carService, reviewService, screenshotReviewService, siteSettingsService } from '@/lib/firestore';
 import { siteConfig } from '@/lib/site';
-import { Car as CarType, Review } from '@/types';
+import { Car as CarType, Review, ScreenshotReview } from '@/types';
 
 const reveal = {
     initial: { opacity: 0, y: 16 },
@@ -80,6 +80,9 @@ export default function Home() {
     const [featuredCars, setFeaturedCars] = useState<CarType[]>([]);
     const [allCars, setAllCars] = useState<CarType[]>([]);
     const [recentReviews, setRecentReviews] = useState<Review[]>([]);
+    const [screenshots, setScreenshots] = useState<ScreenshotReview[]>([]);
+    const [heroImageUrl, setHeroImageUrl] = useState<string | undefined>();
+    const [heroReady, setHeroReady] = useState(false);
     const [loading, setLoading] = useState(true);
     const stats = {
         happyCustomers: 135,
@@ -92,24 +95,35 @@ export default function Home() {
     }, []);
 
     const loadData = async () => {
-        try {
-            const [featuredCarsData, allCarsData, reviewsData] = await Promise.all([
-                carService.getFeaturedCars(),
-                carService.getCars(50),
-                reviewService.getReviews()
-            ]);
+        // Each source loads independently so one failure doesn't blank the whole page
+        const [featuredResult, carsResult, reviewsResult, screenshotsResult, settingsResult] = await Promise.allSettled([
+            carService.getFeaturedCars(),
+            carService.getCars(50),
+            reviewService.getReviews(),
+            screenshotReviewService.getPublished(6),
+            siteSettingsService.get(),
+        ]);
 
-            const available = allCarsData.cars.filter(car => car.status === 'available');
+        const available = carsResult.status === 'fulfilled'
+            ? carsResult.value.cars.filter(car => car.status === 'available')
+            : [];
+        const featured = featuredResult.status === 'fulfilled' ? featuredResult.value : [];
 
-            // Use featured cars if available, otherwise the latest available cars
-            setFeaturedCars(featuredCarsData.length > 0 ? featuredCarsData.slice(0, 6) : available.slice(0, 6));
-            setAllCars(available);
-            setRecentReviews(reviewsData.slice(0, 3));
-        } catch (error) {
-            console.error('Error loading data:', error);
-        } finally {
-            setLoading(false);
+        // Use featured cars if available, otherwise the latest available cars
+        setFeaturedCars(featured.length > 0 ? featured.slice(0, 6) : available.slice(0, 6));
+        setAllCars(available);
+        if (reviewsResult.status === 'fulfilled') {
+            setRecentReviews(reviewsResult.value.filter(review => review.isApproved).slice(0, 3));
         }
+        if (screenshotsResult.status === 'fulfilled') setScreenshots(screenshotsResult.value);
+        if (settingsResult.status === 'fulfilled') setHeroImageUrl(settingsResult.value.heroImageUrl || undefined);
+
+        [featuredResult, carsResult, reviewsResult, screenshotsResult, settingsResult]
+            .filter((result): result is PromiseRejectedResult => result.status === 'rejected')
+            .forEach(result => console.error('Error loading homepage data:', result.reason));
+
+        setHeroReady(true);
+        setLoading(false);
     };
 
     const makes = Array.from(new Set(allCars.map(car => car.make).filter(Boolean))).sort();
@@ -120,7 +134,14 @@ export default function Home() {
 
     return (
         <div className="pt-20">
-            <Hero stats={stats} makes={makes} fuelTypes={fuelTypes} />
+            <Hero
+                stats={stats}
+                makes={makes}
+                fuelTypes={fuelTypes}
+                ready={heroReady}
+                heroImageUrl={heroImageUrl}
+                spotlightCar={featuredCars.find(car => car.images?.length) || allCars.find(car => car.images?.length)}
+            />
 
             {/* Featured Vehicles */}
             <section className="bg-white py-20 lg:py-24">
@@ -270,6 +291,12 @@ export default function Home() {
                             ))}
                         </div>
                     ) : (
+                        <>
+                        {screenshots.length > 0 && (
+                            <div className={recentReviews.length > 0 ? 'mb-10' : ''}>
+                                <ScreenshotReviews reviews={screenshots} />
+                            </div>
+                        )}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {recentReviews.map((review) => (
                                 <motion.figure
@@ -294,6 +321,7 @@ export default function Home() {
                                 </motion.figure>
                             ))}
                         </div>
+                        </>
                     )}
 
                     <div className="mt-10">

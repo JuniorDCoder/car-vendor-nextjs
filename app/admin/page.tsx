@@ -172,6 +172,18 @@ export default function AdminDashboard() {
                                 Manage Reviews
                             </Link>
                             <Link
+                                href="/admin/reviews/screenshots"
+                                className="block w-full bg-white text-[#001F3F] border-2 border-[#001F3F] px-6 py-4 rounded-lg hover:bg-gray-50 transition-colors text-center font-semibold"
+                            >
+                                Screenshot Reviews (upload &amp; order)
+                            </Link>
+                            <Link
+                                href="/admin/settings"
+                                className="block w-full bg-white text-[#001F3F] border-2 border-[#001F3F] px-6 py-4 rounded-lg hover:bg-gray-50 transition-colors text-center font-semibold"
+                            >
+                                Homepage Photo
+                            </Link>
+                            <Link
                                 href="/admin/contacts"
                                 className="block w-full bg-purple-500 text-white px-6 py-4 rounded-lg hover:bg-purple-600 transition-colors text-center font-semibold"
                             >

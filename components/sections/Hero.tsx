@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Search, Star } from 'lucide-react';
 import { siteConfig } from '@/lib/site';
+import { Car } from '@/types';
 
 interface HeroProps {
     stats: {
@@ -16,6 +17,12 @@ interface HeroProps {
     };
     makes: string[];
     fuelTypes: string[];
+    // False until homepage data has loaded, so no placeholder photo flashes first
+    ready: boolean;
+    // Photo uploaded by the admin (Admin → Homepage Photo)
+    heroImageUrl?: string;
+    // A car in stock, used as the photo when no homepage photo has been uploaded
+    spotlightCar?: Car;
 }
 
 const priceOptions = [5000, 10000, 15000, 20000, 30000, 40000, 50000, 75000];
@@ -26,10 +33,14 @@ const fadeIn = (delay = 0) => ({
     transition: { duration: 0.6, delay, ease: 'easeOut' as const },
 });
 
-export default function Hero({ stats, makes, fuelTypes }: HeroProps) {
+export default function Hero({ stats, makes, fuelTypes, ready, heroImageUrl, spotlightCar }: HeroProps) {
     const router = useRouter();
     const [search, setSearch] = useState({ make: '', fuelType: '', maxPrice: '' });
     const [imageFailed, setImageFailed] = useState(false);
+
+    // Real photos only: the admin's uploaded photo first, otherwise a car currently in stock
+    const showSpotlight = !heroImageUrl && !!spotlightCar;
+    const photoUrl = heroImageUrl || spotlightCar?.images?.[0];
 
     const handleSearch = (e: FormEvent) => {
         e.preventDefault();
@@ -47,7 +58,23 @@ export default function Hero({ stats, makes, fuelTypes }: HeroProps) {
             <div className="grid lg:grid-cols-12 lg:min-h-[640px] lg:h-[calc(100vh-5rem)] lg:max-h-[820px]">
                 {/* Photograph */}
                 <div className="relative h-64 sm:h-80 lg:h-auto lg:col-span-7 lg:order-2 bg-[#0B2A4A]">
-                    {imageFailed ? (
+                    {ready && photoUrl && !imageFailed ? (
+                        <Image
+                            key={photoUrl}
+                            src={photoUrl}
+                            alt={
+                                showSpotlight && spotlightCar
+                                    ? `${spotlightCar.year} ${spotlightCar.make} ${spotlightCar.model} in stock at ${siteConfig.name}`
+                                    : `${siteConfig.name} showroom`
+                            }
+                            fill
+                            priority
+                            sizes="(min-width: 1024px) 58vw, 100vw"
+                            className="object-cover"
+                            onError={() => setImageFailed(true)}
+                            data-testid="hero-photo"
+                        />
+                    ) : ready ? (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Image
                                 src={siteConfig.logo}
@@ -57,29 +84,39 @@ export default function Hero({ stats, makes, fuelTypes }: HeroProps) {
                                 className="w-40 sm:w-56 lg:w-72 h-auto opacity-90"
                             />
                         </div>
-                    ) : (
-                        <Image
-                            src={siteConfig.heroImage}
-                            alt="A premium used car at Premier Auto Centre"
-                            fill
-                            priority
-                            sizes="(min-width: 1024px) 58vw, 100vw"
-                            className="object-cover"
-                            onError={() => setImageFailed(true)}
-                        />
-                    )}
+                    ) : null}
 
-                    <motion.div
-                        {...fadeIn(0.5)}
-                        className="absolute bottom-6 left-6 hidden sm:flex items-start gap-3 rounded-md bg-white px-5 py-4 shadow-lg lg:bottom-24"
-                    >
-                        <MapPin className="mt-0.5 h-5 w-5 text-[#D32F2F]" />
-                        <div>
-                            <p className="text-sm font-semibold text-[#001F3F]">Visit our showroom</p>
-                            <p className="text-sm text-gray-600">St John&apos;s Rd, Meadowfield, Durham</p>
-                            <p className="mt-1 text-xs text-gray-500">Open 7 days a week</p>
-                        </div>
-                    </motion.div>
+                    {ready && (showSpotlight && spotlightCar && !imageFailed ? (
+                        <motion.div {...fadeIn(0.2)} className="absolute bottom-6 left-6 right-6 sm:right-auto lg:bottom-24">
+                            <Link
+                                href={`/cars/${spotlightCar.id}`}
+                                className="group flex items-center gap-4 rounded-md bg-white px-5 py-4 shadow-lg"
+                            >
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-[#D32F2F]">In stock now</p>
+                                    <p className="mt-0.5 font-semibold text-[#001F3F]">
+                                        {spotlightCar.year} {spotlightCar.make} {spotlightCar.model}
+                                    </p>
+                                    {spotlightCar.price ? (
+                                        <p className="text-sm text-gray-600">£{spotlightCar.price.toLocaleString()}</p>
+                                    ) : null}
+                                </div>
+                                <ArrowRight className="h-5 w-5 text-[#001F3F] transition-transform group-hover:translate-x-1" />
+                            </Link>
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            {...fadeIn(0.2)}
+                            className="absolute bottom-6 left-6 hidden sm:flex items-start gap-3 rounded-md bg-white px-5 py-4 shadow-lg lg:bottom-24"
+                        >
+                            <MapPin className="mt-0.5 h-5 w-5 text-[#D32F2F]" />
+                            <div>
+                                <p className="text-sm font-semibold text-[#001F3F]">Visit our showroom</p>
+                                <p className="text-sm text-gray-600">St John&apos;s Rd, Meadowfield, Durham</p>
+                                <p className="mt-1 text-xs text-gray-500">Open 7 days a week</p>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
 
                 {/* Copy */}
