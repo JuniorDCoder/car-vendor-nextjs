@@ -45,3 +45,21 @@ export interface CloudinaryUploadResult {
     width: number;
     height: number;
 }
+// A customer review posted as an image (e.g. a screenshot of a WhatsApp chat or Google review)
+export interface ScreenshotReview {
+    id?: string;
+    imageUrl: string;
+    publicId?: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+    order: number;
+    isPublished: boolean;
+    createdAt?: Date;
+}
+
+export interface SiteSettings {
+    heroImageUrl?: string;
+    heroImagePublicId?: string;
+    updatedAt?: Date;
+}

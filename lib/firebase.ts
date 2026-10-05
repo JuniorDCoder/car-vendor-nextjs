@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -18,5 +18,14 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const auth = getAuth(app);
+
+// Local testing only: set NEXT_PUBLIC_USE_FIREBASE_EMULATOR=true to talk to the Firebase
+// emulators instead of the live project. Never set this in Vercel.
+const globalForEmulator = globalThis as unknown as { __firebaseEmulatorConnected?: boolean };
+if (process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATOR === 'true' && !globalForEmulator.__firebaseEmulatorConnected) {
+    connectFirestoreEmulator(db, '127.0.0.1', 8080);
+    connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
+    globalForEmulator.__firebaseEmulatorConnected = true;
+}
 
 export default app;

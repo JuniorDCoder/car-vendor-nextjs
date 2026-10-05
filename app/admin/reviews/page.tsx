@@ -13,7 +13,8 @@ import {
     Filter,
     CheckCircle,
     XCircle,
-    Loader
+    Loader,
+    Image as ImageIcon
 } from 'lucide-react';
 import { reviewService } from '@/lib/firestore';
 import { authService } from '@/lib/auth';
@@ -138,13 +139,22 @@ export default function ReviewsPage() {
                         <h1 className="text-4xl font-bold text-[#001F3F] mb-2">Manage Reviews</h1>
                         <p className="text-gray-600">Approve, edit, and manage customer reviews</p>
                     </div>
-                    <Link
-                        href="/admin/reviews/new"
-                        className="flex items-center gap-2 bg-[#D32F2F] text-white px-6 py-3 rounded-lg hover:bg-[#B71C1C] transition-colors"
-                    >
-                        <Plus className="w-5 h-5" />
-                        Add New Review
-                    </Link>
+                    <div className="flex flex-wrap gap-3">
+                        <Link
+                            href="/admin/reviews/screenshots"
+                            className="flex items-center gap-2 bg-[#001F3F] text-white px-6 py-3 rounded-lg hover:bg-[#0A2E55] transition-colors"
+                        >
+                            <ImageIcon className="w-5 h-5" />
+                            Screenshot Reviews
+                        </Link>
+                        <Link
+                            href="/admin/reviews/new"
+                            className="flex items-center gap-2 bg-[#D32F2F] text-white px-6 py-3 rounded-lg hover:bg-[#B71C1C] transition-colors"
+                        >
+                            <Plus className="w-5 h-5" />
+                            Add New Review
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Filters */}

@@ -15,8 +15,10 @@ import {
     DocumentData,
     QueryDocumentSnapshot, onSnapshot,
     Timestamp,
+    writeBatch,
+    setDoc,
 } from "firebase/firestore";
-import { Car, Review } from "@/types";
+import { Car, Review, ScreenshotReview, SiteSettings } from "@/types";
 
 // Car operations
 export const carService = {
@@ -178,5 +180,67 @@ export const reviewService = {
     getReviewById: async (id: string): Promise<Review | null> => {
         const docSnap = await getDoc(doc(db, "reviews", id));
         return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } as Review : null;
+    },
+};
+
+
+// Screenshot reviews: images of real customer messages, shown in the order the admin sets
+const SCREENSHOT_REVIEWS = "screenshotReviews";
+
+export const screenshotReviewService = {
+    // All screenshots, in display order (admin view)
+    getAll: async (): Promise<ScreenshotReview[]> => {
+        const snapshot = await getDocs(query(collection(db, SCREENSHOT_REVIEWS), orderBy("order", "asc")));
+        return snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as ScreenshotReview));
+    },
+
+    // Published screenshots only, in display order (public pages).
+    // Filtered client-side so no composite Firestore index is needed.
+    getPublished: async (max?: number): Promise<ScreenshotReview[]> => {
+        const all = await screenshotReviewService.getAll();
+        const published = all.filter((review) => review.isPublished);
+        return max ? published.slice(0, max) : published;
+    },
+
+    // Adds new screenshots after the existing ones, keeping the upload order
+    addMany: async (items: Omit<ScreenshotReview, 'id' | 'order' | 'createdAt'>[], startOrder: number): Promise<void> => {
+        const batch = writeBatch(db);
+        items.forEach((item, index) => {
+            batch.set(doc(collection(db, SCREENSHOT_REVIEWS)), {
+                ...item,
+                order: startOrder + index,
+                createdAt: new Date(),
+            });
+        });
+        await batch.commit();
+    },
+
+    update: async (id: string, data: Partial<Omit<ScreenshotReview, 'id'>>): Promise<void> => {
+        await updateDoc(doc(db, SCREENSHOT_REVIEWS, id), data);
+    },
+
+    // Persists a new display order: position in the array becomes the `order` value
+    reorder: async (orderedIds: string[]): Promise<void> => {
+        const batch = writeBatch(db);
+        orderedIds.forEach((id, index) => batch.update(doc(db, SCREENSHOT_REVIEWS, id), { order: index }));
+        await batch.commit();
+    },
+
+    delete: async (id: string): Promise<void> => {
+        await deleteDoc(doc(db, SCREENSHOT_REVIEWS, id));
+    },
+};
+
+// Site-wide settings editable from the admin panel (e.g. the homepage photo)
+const SETTINGS_DOC = doc(db, "settings", "site");
+
+export const siteSettingsService = {
+    get: async (): Promise<SiteSettings> => {
+        const snap = await getDoc(SETTINGS_DOC);
+        return snap.exists() ? (snap.data() as SiteSettings) : {};
+    },
+
+    update: async (data: Partial<SiteSettings>): Promise<void> => {
+        await setDoc(SETTINGS_DOC, { ...data, updatedAt: new Date() }, { merge: true });
     },
 };

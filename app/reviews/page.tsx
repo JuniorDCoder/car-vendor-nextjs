@@ -1,201 +1,148 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import AOS from 'aos';
-import { Star, Loader, MessageCircle } from 'lucide-react';
-import { reviewService } from '@/lib/firestore';
-import { Review } from '@/types';
+import Link from 'next/link';
+import { Star, Loader, MessageCircle, ArrowRight } from 'lucide-react';
+import { reviewService, screenshotReviewService } from '@/lib/firestore';
+import ScreenshotReviews from '@/components/sections/ScreenshotReviews';
+import { Review, ScreenshotReview } from '@/types';
+
+// Firestore returns Timestamps; older code paths may hold plain Dates
+function formatReviewDate(value: unknown): string | null {
+    if (!value) return null;
+    const date =
+        value instanceof Date
+            ? value
+            : typeof (value as { seconds?: number }).seconds === 'number'
+                ? new Date((value as { seconds: number }).seconds * 1000)
+                : null;
+    return date ? date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : null;
+}
 
 export default function ReviewsPage() {
     const [reviews, setReviews] = useState<Review[]>([]);
+    const [screenshots, setScreenshots] = useState<ScreenshotReview[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        AOS.init({
-            duration: 800,
-            once: true,
-        });
-        loadReviews();
+        const load = async () => {
+            const [written, images] = await Promise.allSettled([
+                reviewService.getReviews(),
+                screenshotReviewService.getPublished(),
+            ]);
+            if (written.status === 'fulfilled') {
+                // Only show approved reviews to the public
+                setReviews(written.value.filter((review) => review.isApproved));
+            } else {
+                console.error('Error loading reviews:', written.reason);
+            }
+            if (images.status === 'fulfilled') {
+                setScreenshots(images.value);
+            } else {
+                console.error('Error loading screenshot reviews:', images.reason);
+            }
+            setLoading(false);
+        };
+        load();
     }, []);
 
-    const loadReviews = async () => {
-        try {
-            setLoading(true);
-            const reviewsData = await reviewService.getReviews();
-            // Only show approved reviews to the public
-            const approvedReviews = reviewsData.filter(review => review.isApproved);
-            setReviews(approvedReviews);
-        } catch (error) {
-            console.error('Error loading reviews:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    if (loading) {
-        return (
-            <div className="pt-20 min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                    <Loader className="w-12 h-12 text-[#D32F2F] animate-spin mx-auto mb-4" />
-                    <p className="text-gray-600">Loading reviews...</p>
-                </div>
-            </div>
-        );
-    }
+    const total = reviews.length + screenshots.length;
 
     return (
-        <div className="pt-20 min-h-screen bg-gray-50">
-            {/* Hero Section */}
-            <section className="bg-[#001F3F] text-white py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center"
-                    >
-                        <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                            Customer <span className="text-[#D32F2F]">Reviews</span>
-                        </h1>
-                        <p className="text-xl text-[#C0C0C0] mb-4">
-                            Hear what our satisfied customers have to say about their experience
-                        </p>
-                        <div className="flex items-center justify-center space-x-4 text-lg">
-                            <div className="flex items-center space-x-1">
-                                {[...Array(5)].map((_, i) => (
-                                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                                ))}
-                            </div>
-                            <span className="text-[#C0C0C0]">
-                {reviews.length} Verified Reviews
-              </span>
+        <div className="pt-20 min-h-screen bg-white">
+            <section className="bg-[#001F3F] text-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-gray-300">
+                        <span className="h-px w-8 bg-[#D32F2F]" />
+                        Reviews
+                    </p>
+                    <h1 className="mt-4 text-4xl md:text-5xl font-semibold tracking-tight">What our customers say</h1>
+                    <div className="mt-6 flex flex-wrap items-center gap-3 text-gray-300">
+                        <div className="flex">
+                            {[...Array(5)].map((_, i) => (
+                                <Star key={i} className="h-5 w-5 fill-[#F5B301] text-[#F5B301]" />
+                            ))}
                         </div>
-                    </motion.div>
+                        <span>4.9 average from 135+ happy customers</span>
+                    </div>
                 </div>
             </section>
 
-            {/* Reviews Content */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                {reviews.length > 0 ? (
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8"
-                    >
-                        {reviews.map((review, index) => (
-                            <motion.div
-                                key={review.id}
-                                variants={itemVariants}
-                                whileHover={{ y: -5, transition: { duration: 0.3 } }}
-                                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
-                            >
-                                {/* Rating */}
-                                <div className="flex items-center mb-4">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star
-                                            key={i}
-                                            className={`w-6 h-6 ${
-                                                i < review.rating
-                                                    ? 'fill-[#D32F2F] text-[#D32F2F]'
-                                                    : 'fill-gray-300 text-gray-300'
-                                            }`}
-                                        />
-                                    ))}
-                                </div>
+            {loading ? (
+                <div className="py-24 text-center">
+                    <Loader className="w-10 h-10 text-[#D32F2F] animate-spin mx-auto mb-4" />
+                    <p className="text-gray-600">Loading reviews...</p>
+                </div>
+            ) : total === 0 ? (
+                <div className="py-24 text-center">
+                    <MessageCircle className="w-14 h-14 text-gray-300 mx-auto mb-4" />
+                    <h2 className="text-xl font-semibold text-gray-700 mb-2">No reviews yet</h2>
+                    <p className="text-gray-500">Check back soon to see what our customers are saying.</p>
+                </div>
+            ) : (
+                <>
+                    {screenshots.length > 0 && (
+                        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-[#001F3F]">
+                                Messages from our customers
+                            </h2>
+                            <p className="mt-2 mb-10 text-gray-600">
+                                Real messages and reviews we&apos;ve received. Tap any one to view it full size.
+                            </p>
+                            <ScreenshotReviews reviews={screenshots} columns={4} />
+                        </section>
+                    )}
 
-                                {/* Comment */}
-                                <p className="text-gray-700 mb-6 italic text-lg leading-relaxed">
-                                    "{review.comment}"
-                                </p>
-
-                                {/* Customer Info */}
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="font-semibold text-[#001F3F] text-lg">
-                                            {review.customerName}
-                                        </p>
-                                        {review.createdAt && (
-                                            <p className="text-gray-500 text-sm mt-1">
-                                                {new Date(review.createdAt.seconds * 1000).toLocaleDateString('en-GB', {
-                                                    day: 'numeric',
-                                                    month: 'long',
-                                                    year: 'numeric'
-                                                })}
-                                            </p>
-                                        )}
-                                    </div>
-                                    {review.carId && (
-                                        <div className="text-right">
-                                            <p className="text-sm text-gray-500">Verified Purchase</p>
-                                        </div>
-                                    )}
+                    {reviews.length > 0 && (
+                        <section className={screenshots.length > 0 ? 'bg-[#F5F6F8]' : ''}>
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                                <h2 className="mb-10 text-2xl md:text-3xl font-semibold tracking-tight text-[#001F3F]">
+                                    Written reviews
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {reviews.map((review) => {
+                                        const date = formatReviewDate(review.createdAt);
+                                        return (
+                                            <figure key={review.id} className="flex flex-col rounded-md border border-gray-200 bg-white p-8">
+                                                <div className="flex">
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <Star
+                                                            key={i}
+                                                            className={`h-4 w-4 ${i < review.rating ? 'fill-[#F5B301] text-[#F5B301]' : 'fill-gray-200 text-gray-200'}`}
+                                                        />
+                                                    ))}
+                                                </div>
+                                                <blockquote className="mt-5 flex-1 leading-relaxed text-gray-700">
+                                                    &ldquo;{review.comment}&rdquo;
+                                                </blockquote>
+                                                <figcaption className="mt-6 border-t border-gray-100 pt-4">
+                                                    <p className="text-sm font-semibold text-[#001F3F]">{review.customerName}</p>
+                                                    {date && <p className="mt-0.5 text-xs text-gray-500">{date}</p>}
+                                                </figcaption>
+                                            </figure>
+                                        );
+                                    })}
                                 </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                ) : (
-                    <div className="text-center py-12">
-                        <MessageCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-600 mb-2">No reviews yet</h3>
-                        <p className="text-gray-500">
-                            Check back later to see what our customers are saying!
-                        </p>
+                            </div>
+                        </section>
+                    )}
+                </>
+            )}
+
+            <section className="bg-[#001F3F] text-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                    <div>
+                        <h2 className="text-2xl font-semibold">Ready to find your next car?</h2>
+                        <p className="mt-2 text-gray-300">Join over 135 happy customers who bought with confidence.</p>
                     </div>
-                )}
-
-                {/* Stats Section */}
-                {reviews.length > 0 && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.5 }}
-                        className="mt-16 bg-[#001F3F] rounded-2xl p-8 text-white text-center"
+                    <Link
+                        href="/cars"
+                        className="inline-flex items-center justify-center gap-2 rounded-md bg-[#D32F2F] px-7 py-3.5 font-semibold text-white transition-colors hover:bg-[#B71C1C]"
                     >
-                        <h2 className="text-3xl font-bold mb-4">Join Our Happy Customers</h2>
-                        <p className="text-xl text-[#C0C0C0] mb-6">
-                            Over 135 satisfied customers and counting
-                        </p>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
-                            <div>
-                                <div className="text-3xl font-bold text-[#D32F2F]">{reviews.length}+</div>
-                                <div className="text-[#C0C0C0]">Verified Reviews</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-[#D32F2F]">4.9/5</div>
-                                <div className="text-[#C0C0C0]">Average Rating</div>
-                            </div>
-                            <div>
-                                <div className="text-3xl font-bold text-[#D32F2F]">135+</div>
-                                <div className="text-[#C0C0C0]">Happy Customers</div>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </div>
+                        View our stock <ArrowRight className="h-4 w-4" />
+                    </Link>
+                </div>
+            </section>
         </div>
     );
 }
