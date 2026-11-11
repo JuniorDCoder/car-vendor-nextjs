@@ -417,7 +417,7 @@ export default function ContactPage() {
                                     Get instant answers to your questions via WhatsApp. We're here to help you find your perfect vehicle.
                                 </p>
                                 <a
-                                    href={`https://wa.me/447412800685?text=${generateWhatsAppMessage()}`}
+                                    href={`https://wa.me/447575883673?text=${generateWhatsAppMessage()}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="block w-full bg-green-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-600 transition-colors text-center"
