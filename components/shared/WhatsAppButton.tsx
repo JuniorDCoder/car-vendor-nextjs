@@ -8,7 +8,7 @@ export default function WhatsAppButton() {
   // Car detail pages have their own WhatsApp action bar on mobile, so hide this there
   const pathname = usePathname();
   const onCarPage = /^\/cars\/[^/]+/.test(pathname || '');
-  const phoneNumber = '447412800685';
+  const phoneNumber = '447575883673';
   const message = 'Hello! I\'m interested in learning more about your cars.';
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
