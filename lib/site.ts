@@ -12,6 +12,6 @@ export const siteConfig = {
     tagline: 'Drive Your Dream, Today.',
     logo: '/logo.png',
     location: 'Durham',
-    whatsappNumber: '447575883673',
+    whatsappNumber: '447412819527',
     contactEmail,
 };
