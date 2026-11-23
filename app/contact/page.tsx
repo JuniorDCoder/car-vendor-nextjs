@@ -207,8 +207,8 @@ export default function ContactPage() {
                         {
                             icon: <MessageCircle className="w-8 h-8" />,
                             title: 'WhatsApp',
-                            content: '+447575883673',
-                            link: `https://wa.me/447575883673?text=${generateWhatsAppMessage()}`,
+                            content: '+447412819527',
+                            link: `https://wa.me/447412819527?text=${generateWhatsAppMessage()}`,
                             description: 'Quick chat for instant assistance'
                         },
                         {
