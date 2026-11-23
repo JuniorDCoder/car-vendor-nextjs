@@ -3,14 +3,14 @@
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { siteConfig } from '@/lib/site';
 
 export default function WhatsAppButton() {
   // Car detail pages have their own WhatsApp action bar on mobile, so hide this there
   const pathname = usePathname();
   const onCarPage = /^\/cars\/[^/]+/.test(pathname || '');
-  const phoneNumber = '447412819527';
   const message = 'Hello! I\'m interested in learning more about your cars.';
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
     <motion.a

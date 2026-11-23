@@ -207,8 +207,8 @@ export default function ContactPage() {
                         {
                             icon: <MessageCircle className="w-8 h-8" />,
                             title: 'WhatsApp',
-                            content: '+447412819527',
-                            link: `https://wa.me/447412819527?text=${generateWhatsAppMessage()}`,
+                            content: `+${siteConfig.whatsappNumber}`,
+                            link: `https://wa.me/${siteConfig.whatsappNumber}?text=${generateWhatsAppMessage()}`,
                             description: 'Quick chat for instant assistance'
                         },
                         {
@@ -417,7 +417,7 @@ export default function ContactPage() {
                                     Get instant answers to your questions via WhatsApp. We're here to help you find your perfect vehicle.
                                 </p>
                                 <a
-                                    href={`https://wa.me/447575883673?text=${generateWhatsAppMessage()}`}
+                                    href={`https://wa.me/${siteConfig.whatsappNumber}?text=${generateWhatsAppMessage()}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="block w-full bg-green-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-600 transition-colors text-center"
